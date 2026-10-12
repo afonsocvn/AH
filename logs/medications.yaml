@@ -1,0 +1,12 @@
+# Histórico de medicação e suplementos (mudanças ao longo do tempo).
+# O estado ATUAL vive em data/profile.yaml — este ficheiro é o histórico de alterações.
+entries: []
+# exemplo de entrada:
+# entries:
+#   - date: 2026-08-13
+#     nome: ""
+#     acao: "iniciado"   # "iniciado" | "alterado" | "suspenso"
+#     dose: ""
+#     frequencia: ""
+#     motivo: ""
+#     notas: ""

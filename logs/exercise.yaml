@@ -1,0 +1,173 @@
+# Histórico de exercício físico / treinos.
+entries:
+  - date: 2026-08-22
+    hora_inicio: "15:14:22"
+    tipo: "corrida"
+    nome: "Cascais Corrida"
+    distancia_km: 31.28
+    duracao: "03:07:08"
+    duracao_em_movimento: "03:00:02"
+    ganho_elevacao_m: 136
+    perda_elevacao_m: 140
+    pace_medio: "05:45/km"
+    pace_medio_em_movimento: "05:41/km"
+    melhor_pace: "04:57/km"
+    cadencia_media: 83
+    cadencia_max: 93
+    passada_media_cm: 105
+    fc_media: 150
+    fc_max: 173
+    temperatura_media_c: 30
+    calorias: 1896
+    fonte: "Coros Pace 3"
+    nutricao:
+      doses:
+        - km: 7
+          tempo: "~00:39:00"
+          item: "gel"
+        - km: 14
+          tempo: "~01:23:00"
+          item: "banana"
+          nota: "provável causa da dor de barriga no km16-18 (12-25min depois)"
+        - km: "16-17"
+          tempo: "~01:35-01:42"
+          item: "gel"
+        - km: 24
+          tempo: "~02:24:00"
+          item: "gel com cafeína"
+      hidratacao: "a primeira água (início do treino) já tinha eletrólitos"
+      analise: >
+        Total ~90-100g hidratos em 3h07 (~30g/h) — abaixo do recomendado
+        (60-90g/h) para esforço >2.5-3h. Gap de 43min sem hidratos entre o
+        km24 e a meta coincide com a zona de maior decoupling (FC 158-173,
+        pace instável). Eletrólitos já presentes desde o início (pelo menos
+        na primeira água), por isso o enjoo do final não parece ser défice
+        de sódio logo de início — mais provável ser efeito acumulado do
+        calor + géis sem água suficiente. A rever: subir dose, tomas mais
+        frequentes (20-25min), tirar fruta inteira do plano, garantir fuel
+        no troço final.
+    notas: >
+      Previsão de 23-24°C mas sensação de calor seco muito forte e sem vento
+      nos primeiros ~13km — mal-estar de calor no início. Melhorou muito
+      depois de se refrescar; a partir daí molhou sempre o chapéu nos
+      abastecimentos. Dor de barriga por volta do km 16-18 causada por uma
+      banana (a evitar/reduzir em treinos e na prova). As 3 paragens longas
+      (splits 14, 22, 27) foram para ir buscar água ao carro — não
+      representativas do que fará em prova. Enjoos sentidos no final,
+      provavelmente calor acumulado + géis sem água suficiente, mais do que
+      intolerância aos géis em si. Primeira vez a correr mais de 20km —
+      apareceram dores no tendão de Aquiles e no joelho nos dias seguintes
+      (ver logs/lesoes.yaml). Corredor já habituado a treinar com bastante
+      calor e que aguenta bem até ~20km sem quebrar — a quebra tardia deste
+      treino aponta para limitador de duração/glicogénio, não intolerância
+      ao calor.
+
+  - date: 2026-09-12
+    hora_inicio: "09:28:16"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 35.02
+    duracao: "03:39:01"
+    duracao_em_movimento: "03:16:30"
+    tempo_parado: "~00:22:32"
+    ganho_elevacao_m: 109
+    perda_elevacao_m: 136
+    pace_medio_em_movimento: "05:37/km"
+    melhor_pace_lap: "05:15/km"
+    cadencia_media: 83
+    cadencia_max: 96
+    passada_media_cm: 107
+    fc_media: 158
+    fc_min: 98
+    fc_max: 181
+    potencia_media_w: 163
+    oscilacao_vertical_mm: 94
+    tempo_contacto_solo_ms: 265
+    temperatura_media_c: 32
+    temperatura_max_c: 35
+    calorias: 2317
+    fonte: "Coros Pace 3 (.fit)"
+    splits_km:
+      resumo: >
+        36 splits de 1km (último parcial, 16m). Pace estável entre 5:15 e
+        5:95/km ao longo de quase todo o treino, sem quebras de forma como
+        no Cascais. FC sobe de forma constante e acentuada: ~125bpm no km1
+        até 174-181bpm nos últimos km, com o pace a manter-se — decoupling
+        claro, mas desta vez sem colapso de pace/cadência (cadência
+        manteve-se 81-86 do início ao fim, nunca caiu para os 77-80 que se
+        viu no Cascais). Potência também sobe gradualmente de ~150W para
+        ~165-176W ao longo do treino, coerente com a subida de FC.
+    fueling_planeado_vs_executado:
+      plano: "ver data/objetivos.yaml -> plano_fueling_longo_grande"
+      eletrolitos_pre_treino: "tomados só ~30min antes (plano era 1.5-2h antes) — menos tempo de absorção que o ideal"
+      resultado: "géis correram bem, sem enjoos desta vez — plano ajustado (hydrogel, água a acompanhar, sódio a meio, cafeína espaçada) parece ter resolvido o problema do Cascais"
+    tempo_parado_22min: "confirmado: foi só para tirar uma fotografia (ia acompanhado), não paragem por fadiga/física — podia ter continuado sem problemas. Isto reforça que a previsão baseada no tempo em movimento (não no tempo total) é a leitura mais fiável da capacidade real."
+    notas: >
+      Estava um pouco constipado e fazia calor (32°C média, até 35°C),
+      mas fisicamente correu bastante bem. Não bateu no "muro" como no
+      Cascais — só começou a sentir a fadiga por volta do km35 (pode ser
+      mais mental, por saber que estava a acabar, do que fisiológico). BPM
+      mais alto do que o ideal mas aguentou bem. Sem dores (Aquiles/joelho
+      silenciosos). Chegou à distância-alvo (~35km) com pace consistente,
+      o que é uma melhoria clara face ao Cascais (31.28km) em termos de
+      resistência de duração — apesar de calor pior e de estar doente.
+
+  - date: 2026-10-10
+    hora_inicio: "08:16:19"
+    tipo: "corrida"
+    nome: "Maratona de Carcavelos"
+    resultado: "DNF (desistência) aos 27.24km"
+    distancia_km: 27.24
+    duracao: "02:45:48"
+    ganho_elevacao_m: 160
+    perda_elevacao_m: 169
+    pace_medio: "06:05/km"
+    fc_media: 167
+    fc_min: 108
+    fc_max: 186
+    cadencia_media: 82
+    cadencia_max: 95
+    passada_media_cm: 100
+    potencia_media_w: 151
+    oscilacao_vertical_mm: 87
+    tempo_contacto_solo_ms: 262
+    temperatura_media_c: 24
+    calorias: 1889
+    fonte: "Coros Pace 3 (.fit)"
+    splits_km:
+      resumo: >
+        28 splits de 1km (último parcial, 240m). Temperatura bem mais
+        fresca que nos treinos de verão (22-27°C vs 30-35°C), mas a FC
+        esteve anormalmente alta desde muito cedo: já 160-181bpm entre o
+        km2 e o km20, com o pace a manter-se perto do planeado (5:45-5:80
+        min/km) — ou seja, o esforço percebido/cardíaco estava muito acima
+        do que o pace justificava, consistente com estar doente, não com
+        calor ou esforço excessivo de pace. A partir do km21 (perto da meia
+        maratona) começam sinais claros de deterioração: lap21 já mais
+        lento (6:01/km), lap22 colapsa (7:66/km, cadência cai de 84 para
+        71, potência cai de ~161W para 119W) — provável início da dor
+        aguda no Aquiles. Dos km23-27 o atleta tenta continuar em ondas
+        (recupera um pouco, piora outra vez): paces entre 5:98 e 7:84/km,
+        cadência a oscilar entre 75-86. O último troço (240m) é
+        essencialmente a andar/coxear — pace equivalente a 23:15/km,
+        cadência 32, potência 40W — antes da desistência aos 27.24km.
+    notas: >
+      "No hard feelings, just not my day." Estava doente, começou logo
+      com FC muito elevada para o pace (sinal claro de doença, não de
+      calor — a temperatura estava bem mais baixa que nos treinos de
+      verão). Dor progressiva no tendão de Aquiles a partir de perto da
+      meia maratona, piorando ao longo de vários km (confirmado pelos
+      dados: colapso de cadência/potência a partir do km22) até à
+      desistência aos 27.24km. Possível continuação do episódio de
+      calcanhar sinalizado em 2026-10-01 (ver logs/lesoes.yaml) — por
+      confirmar se chegou a ser avaliado por um médico antes da prova.
+      Decisão de desistir foi a correta dado o quadro (doença + FC quase
+      máxima + lesão a agravar).
+# exemplo de entrada:
+# entries:
+#   - date: 2026-08-13
+#     tipo: "corrida"
+#     duracao_min: null
+#     distancia_km: null
+#     intensidade: null   # ex: "leve" | "moderada" | "intensa"
+#     notas: ""

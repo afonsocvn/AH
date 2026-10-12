@@ -1,0 +1,16 @@
+# Histórico de análises e exames médicos.
+entries: []
+# exemplo de entrada:
+# entries:
+#   - date: 2026-08-13
+#     tipo: "análises ao sangue"
+#     valores:
+#       - parametro: "glicose"
+#         valor: null
+#         unidade: "mg/dL"
+#         intervalo_referencia: "70-100"
+#       - parametro: "colesterol total"
+#         valor: null
+#         unidade: "mg/dL"
+#         intervalo_referencia: "<200"
+#     notas: ""

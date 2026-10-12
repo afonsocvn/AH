@@ -1,0 +1,111 @@
+# Objetivos ativos (estado atual, não é log — mas guarda histórico de revisões dentro de cada objetivo).
+objetivos:
+  - nome: "Maratona"
+    data_prova: 2026-10-10
+    estado_final: "DNF (desistência) aos 27.24km — ver logs/exercise.yaml entrada 2026-10-10"
+    objetivo_inicial:
+      tempo: "3:30:00"
+      pace: "5:00/km"
+      definido_em: null
+    revisoes:
+      - data: 2026-09-03
+        tempo: "3:45:00 - 4:00:00"
+        pace: "5:20/km - 5:41/km"
+        motivo: "Long run de 31.28km (Cascais, 2026-08-22) mostrou pace médio em movimento de 5:41/km já com decoupling cardíaco no final e forte impacto do calor no início. Nesta data pensava-se inicialmente que a prova era a 2026-09-10 — corrigido para 2026-10-10, o que dá 37 dias/~5.3 semanas de treino ainda pela frente a partir de hoje (2026-09-03), não apenas taper. 3:30 (5:00/km) continua muito exigente face a este benchmark, mas com trabalho dedicado (tempo/limiar, mais rodagens a ritmo de maratona, corrigir calor/nutrição) 3:45 deixa de ser só um 'dia perfeito' e passa a objetivo A treinável. Sub-4h mantém-se como piso."
+      - data: 2026-09-12
+        tempo: "3:55:00 - 4:00:00 (piso confortável), 3:45-3:50 como stretch"
+        pace: "5:19/km - 5:41/km"
+        motivo: >
+          Treino longo de 35.02km em Parede (Coros .fit): pace médio em
+          movimento 5:37/km, sem colapso de pace/cadência como no Cascais
+          (cadência estável 81-86 do início ao fim), apesar de calor pior
+          (32-35°C vs 30-34°C) e de estar ligeiramente constipado. FC subiu
+          de forma acentuada (125→174-181bpm) mas o pace aguentou — sinal de
+          que o limitador de duração identificado a 2026-09-03 está a
+          melhorar com o treino. Extrapolação de Riegel a partir do tempo em
+          movimento (3:16:30 / 35.02km) dá ~3:59:26 para a maratona. Os
+          ~22.5min parado (tempo total 3:39:01 vs tempo em movimento
+          3:16:30) foram confirmados como só uma paragem social para tirar
+          uma fotografia, não fadiga — o atleta podia ter continuado sem
+          problemas. Por isso a estimativa baseada no tempo em movimento
+          (~3:59:26) é a leitura fiável, não um intervalo entre as duas.
+          Fueling também correu bem desta vez, sem enjoos — o ajuste ao
+          plano (hydrogel, água a acompanhar, sódio a meio do treino,
+          cafeína espaçada) resolveu o problema do Cascais. Isto é uma
+          extrapolação a partir de 35km, bem mais fiável do que a anterior
+          (feita a partir de 31km). Sub-4h passa de "objetivo defensável"
+          para "bem provável"; 3:45-3:50 fica em aberto como stretch se a
+          prova correr em condições mais frescas do que este treino.
+      - data: 2026-10-10
+        tempo: "N/A — DNF"
+        pace: "N/A"
+        motivo: >
+          Prova em si: desistência aos 27.24km. Dados do Coros mostram FC
+          anormalmente alta desde muito cedo (160-181bpm já entre o km2 e
+          o km20, com pace a manter-se dentro do planeado) — sinal de
+          doença, não de esforço ou calor (temperatura da prova, 22-27°C,
+          foi bem mais baixa que nos treinos de verão onde o pace/FC se
+          comportaram normalmente). A partir de perto da meia maratona
+          (~km21) começou dor progressiva no tendão de Aquiles, visível
+          nos dados como colapso de cadência/potência a partir do km22,
+          degradando em ondas até à desistência. Isto NÃO invalida o
+          trabalho de preparação nem a estimativa de sub-4h — o treino de
+          Parede (35km, condições piores, também doente) tinha mostrado
+          capacidade real para isso. A causa do DNF foi a combinação de
+          doença aguda no dia + lesão a agravar, fatores do dia e não de
+          fitness. Decisão de desistir foi a correta dado o quadro.
+    piso_minimo:
+      tempo: "4:00:00"
+      pace: "5:41/km"
+    plano_nutricao_em_teste:
+      objetivo: "60-90g hidratos/hora, progressivo ao longo dos próximos treinos longos"
+      regras:
+        - "Água (~150-200ml) sempre a acompanhar cada gel"
+        - "Alternar sabores/marcas para evitar 'flavor fatigue'"
+        - "Preferir géis dual-source (glucose+frutose), não só maltodextrina"
+        - "Incluir sódio/eletrólitos, não só água e hidratos"
+        - "Eletrólitos pré-treino de manhã, ~1.5-2h antes de correr — não na noite anterior (perde-se grande parte do efeito durante a noite)"
+        - "Subir a dose de forma gradual entre treinos (ex: 40→50→60g/h), não de repente"
+        - "Nunca estrear produto novo no dia da prova"
+      contexto: >
+        Enjoos sentidos no final do treino de Cascais provavelmente ligados
+        ao stress de calor (reduz fluxo sanguíneo ao intestino) somado a
+        géis tomados sem água suficiente, mais do que intolerância aos
+        géis em si. Resolvido com sucesso no treino de Parede — plano
+        validado, não precisa de mais ajustes para um próximo ciclo.
+    diagnostico_limitador: >
+      Confirmado (2026-09-03) que já corre habitualmente com bastante calor
+      e aguenta bem até ~20km sem quebrar — o limitador real identificado
+      foi duração/glicogénio, não calor. O treino de Parede (2026-09-12)
+      confirmou que esse limitador estava a melhorar com o treino (pace e
+      cadência mantiveram-se estáveis a 35km). O DNF da prova em si
+      (2026-10-10) não contradiz este diagnóstico — foi causado por doença
+      aguda + lesão no Aquiles no dia, fatores agudos/externos, não pela
+      resistência de duração que já estava bem treinada.
+    risco_ativo: >
+      ENCERRADO para este ciclo (prova já aconteceu, DNF em 2026-10-10 —
+      ver revisão acima e logs/lesoes.yaml). Risco remanescente real:
+      tendão de Aquiles pós-prova (estado atual por confirmar — inchaço?
+      anda normal? dor em repouso?), possível continuação do episódio de
+      calcanhar de 2026-10-01 que nunca se confirmou ter sido avaliado por
+      um médico antes da prova. Contraturas nos ombros (2026-09-03) também
+      continuam por resolver. Prioridade agora é recuperação e avaliação
+      médica a sério, não qualquer objetivo de treino.
+    plano_proximas_semanas:
+      - "ENCERRADO — era específico para o ciclo da maratona de 2026-10-10, que já aconteceu (DNF). Rever/substituir se houver um próximo objetivo de corrida."
+    plano_fueling_longo_grande:
+      inventario: "2x Decathlon Energy Gel+ limão (30g), Way Up Hydro Gel amendoim salgado (30g, sódio), Way Up Hydro Gel frutos tropicais (30g + 100mg cafeína), Way Up Hydro Gel maçã (30g), Powerbar PowerGel Original blackcurrant (2:1 carb mix + 50mg cafeína) — total ~175-180g hidratos"
+      ordem_planeada:
+        - "~30min: Decathlon limão #1"
+        - "~55-60min: Way Up maçã"
+        - "~85-90min: Way Up amendoim salgado (sódio)"
+        - "~115-120min: Decathlon limão #2"
+        - "~145-150min: Way Up tropical (100mg cafeína)"
+        - "reserva final (só se precisar): Powerbar blackcurrant (50mg cafeína)"
+      notas: "Água pequena (100-150ml) a acompanhar cada gel, mais com o Decathlon/Powerbar (mais concentrados) do que com os Hydro Gel Way Up. Levar 7º gel/comida real como reserva se o treino for além de ~3.5h."
+      execucao_real_2026-09-12: "Eletrólitos pré-treino tomados só ~30min antes (não 1.5-2h como planeado). Resultado geral do treino muito positivo — sem enjoos reportados. Plano validado para uso futuro."
+    plano_final_4_semanas:
+      objetivo_confirmado: "sub-4h (piso), 3:45-3:50 como stretch se a prova for mais fresca que os treinos de verão"
+      nota: "Plano seguido até ao taper; a prova em si correu mal por doença+lesão aguda no dia, não por falha do plano de treino (ver revisão de 2026-10-10)."
+    nota_bpm: "parte do BPM alto em Parede foi calor+doença+fadiga acumulada, não só falta de fitness"
+    notas: ""

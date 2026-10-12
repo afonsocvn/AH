@@ -1,0 +1,19 @@
+# Histórico de medições — peso, composição corporal, sinais vitais.
+# Cada entrada é um novo registo, adicionado ao fundo. Não apagar entradas antigas.
+entries:
+  - date: 2026-09-03
+    peso_kg: 52   # valor aproximado, referido de memória
+    imc: null
+    gordura_corporal_pct: null
+    tensao_arterial: null
+    frequencia_cardiaca_repouso: null
+    notas: "valor aproximado dado em conversa, confirmar em próxima pesagem"
+# exemplo de entrada:
+# entries:
+#   - date: 2026-08-13
+#     peso_kg: null
+#     imc: null
+#     gordura_corporal_pct: null
+#     tensao_arterial: null      # ex: "120/80"
+#     frequencia_cardiaca_repouso: null
+#     notas: ""

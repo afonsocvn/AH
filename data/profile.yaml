@@ -1,0 +1,25 @@
+# Dados de base — atualizar quando algo mudar (não é um log, é o estado atual)
+last_updated: 2026-09-03
+
+nome: null
+idade: 28   # referido em 2026-09-03
+data_nascimento: null
+sexo: null
+altura_cm: null
+peso_kg_aprox: 52   # referido em 2026-09-03, ver logs/measurements.yaml para histórico real
+
+condicoes_cronicas: []
+alergias: []
+
+medicacao_atual: []
+# exemplo:
+# medicacao_atual:
+#   - nome: ""
+#     dose: ""
+#     frequencia: ""
+#     desde: ""
+
+historial_relevante: []
+# cirurgias, doenças passadas relevantes, historial familiar relevante, etc.
+
+notas: ""

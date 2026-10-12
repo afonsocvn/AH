@@ -1,0 +1,67 @@
+# Histórico de lesões/dores relacionadas com treino — para acompanhar evolução ao longo do tempo.
+entries:
+  - date: 2026-09-03
+    zona: "tendão de Aquiles"
+    lado: null
+    inicio_aproximado: "após treino longo de Cascais, 2026-08-22"
+    dor_em_repouso: null
+    dor_a_correr: false   # atualizado no mesmo dia: sem dor nas últimas corridas (11.5km + séries de 5k a ~4:20/km, pain-free)
+    inchaco: null
+    coxeia: null
+    diagnostico_profissional: null
+    acao_tomada: "parar de correr uns dias, gelo; retomou gradualmente sem dor. Avaliação por fisioterapeuta/medicina desportiva ainda não realizada, mas já não é urgente dado o quadro atual."
+    estado: "a melhorar — sem dor nas últimas sessões"
+    notas: "Dor no joelho reportada no dia seguinte ao treino longo (2026-09-02), possivelmente relacionada (compensação/alteração de mecânica)."
+  - date: 2026-09-03
+    zona: "ombros"
+    lado: null
+    inicio_aproximado: "há várias semanas (data exata não especificada)"
+    dor_em_repouso: null
+    dor_a_correr: null
+    inchaco: null
+    coxeia: null
+    diagnostico_profissional: null
+    acao_tomada: "já tentou relaxante muscular, fisioterapia e anti-inflamatório, sem resolução"
+    estado: "ativo, sem melhoria com tratamento conservador até agora"
+    notas: "Consulta a marcar em Medicina Física e Reabilitação (Fisiatria) — recomendado Hospital CUF Cascais, mais próximo de Carcavelos com essa especialidade disponível."
+  - date: 2026-09-12
+    zona: "tendão de Aquiles / joelho"
+    dor_em_repouso: null
+    dor_a_correr: false
+    inchaco: null
+    coxeia: null
+    diagnostico_profissional: null
+    acao_tomada: "retomou volume gradualmente (16km + séries de 5k, depois 35km em Parede)"
+    estado: "resolvido/silencioso — sem dor no treino de 35km"
+    notas: "Confirma boa recuperação: treino mais longo até agora (35km) sem qualquer dor no Aquiles ou joelho."
+  - date: 2026-10-01
+    zona: "calcanhar (sola/parte de trás) — possível fascite plantar OU reação de stress óssea"
+    lado: null
+    inicio_aproximado: "sentida nos últimos dias (data exata não especificada), a 9 dias da maratona (2026-10-10)"
+    dor_em_repouso: false   # confirmado: nenhuma dor de manhã/primeiros passos, nem em repouso
+    dor_a_correr: true      # só aparece depois de ~5km de corrida, sensação de "picada"
+    inchaco: null
+    coxeia: null
+    diagnostico_profissional: null
+    acao_tomada: "PARAR de correr até avaliação médica — o padrão (zero dor em repouso/manhã, aparece só após carga acumulada ~5km, picada localizada) é mais típico de reação de stress óssea do que de fasciíte simples. Dado o aumento rápido de volume este mês (0→31km→35km) e peso corporal baixo (~52kg), não deve continuar a treinar nisto sem avaliação."
+    estado: "ativo — avaliação médica urgente recomendada, a 9 dias da prova"
+    notas: "Mesma região/padrão biomecânico do histórico de Aquiles (ver entradas de 2026-09-03/09-12). Prioridade agora é excluir fratura de stress antes de qualquer decisão sobre correr (incluindo a própria maratona). NÃO FICOU CONFIRMADO se chegou a ser avaliado por um médico antes da prova de 2026-10-10 — perguntar."
+  - date: 2026-10-10
+    zona: "tendão de Aquiles"
+    lado: null
+    inicio_aproximado: "dor progressiva a partir de perto da meia maratona (~km21) durante a maratona de Carcavelos"
+    dor_em_repouso: null
+    dor_a_correr: true
+    inchaco: null
+    coxeia: null
+    diagnostico_profissional: null
+    acao_tomada: "desistência da prova aos 27.24km — decisão correta dado o quadro (doença + FC quase máxima + dor a piorar). Dados do Coros confirmam: cadência/potência colapsam a partir do km22 (lap de 459s/km com cadência a cair para 71), degradando em ondas até ao abandono (último km parcial a ritmo de caminhada, cadência 32)."
+    estado: "ativo, pós-prova — estado atual (inchaço? consegue andar normal? dor em repouso agora?) por confirmar"
+    notas: "Possível continuação/relação com o episódio de calcanhar de 2026-10-01 (mesma região), que já tinha sido sinalizado como preocupante antes da prova. Prioridade agora: avaliação médica a sério (já não é sobre a prova, é sobre a recuperação)."
+# exemplo de entrada seguinte (atualizar conforme evolução):
+# entries:
+#   - date: 2026-09-01
+#     zona: "tendão de Aquiles"
+#     diagnostico_profissional: "tendinopatia reativa, sem rotura"
+#     acao_tomada: "excêntricos guiados por fisio, sem correr 1 semana"
+#     estado: "a melhorar"
