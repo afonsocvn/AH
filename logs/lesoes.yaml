@@ -42,10 +42,10 @@ entries:
     dor_a_correr: true      # só aparece depois de ~5km de corrida, sensação de "picada"
     inchaco: null
     coxeia: null
-    diagnostico_profissional: null
-    acao_tomada: "PARAR de correr até avaliação médica — o padrão (zero dor em repouso/manhã, aparece só após carga acumulada ~5km, picada localizada) é mais típico de reação de stress óssea do que de fasciíte simples. Dado o aumento rápido de volume este mês (0→31km→35km) e peso corporal baixo (~52kg), não deve continuar a treinar nisto sem avaliação."
-    estado: "ativo — avaliação médica urgente recomendada, a 9 dias da prova"
-    notas: "Mesma região/padrão biomecânico do histórico de Aquiles (ver entradas de 2026-09-03/09-12). Prioridade agora é excluir fratura de stress antes de qualquer decisão sobre correr (incluindo a própria maratona). NÃO FICOU CONFIRMADO se chegou a ser avaliado por um médico antes da prova de 2026-10-10 — perguntar."
+    diagnostico_profissional: "fascite plantar (confirmado por médico antes da prova) — excluída reação de stress óssea"
+    acao_tomada: "avaliado por médico antes da prova, confirmou fascite plantar. Decidiu correr a maratona mesmo assim."
+    estado: "diagnóstico confirmado — ver entrada de 2026-10-10 para o que aconteceu na prova"
+    notas: "Mesma região/padrão biomecânico do histórico de Aquiles (ver entradas de 2026-09-03/09-12). Durante a maratona, a defesa involuntária da fáscia (alteração da pisada para poupar o pé) sobrecarregou o tendão de Aquiles — ver entrada de 2026-10-10."
   - date: 2026-10-10
     zona: "tendão de Aquiles"
     lado: null
@@ -55,9 +55,10 @@ entries:
     inchaco: null
     coxeia: null
     diagnostico_profissional: null
+    mecanismo: "secundário/compensatório — defesa involuntária da fascite plantar (ver entrada 2026-10-01) alterou a pisada e sobrecarregou o Aquiles, não é uma lesão primária independente"
     acao_tomada: "desistência da prova aos 27.24km — decisão correta dado o quadro (doença + FC quase máxima + dor a piorar). Dados do Coros confirmam: cadência/potência colapsam a partir do km22 (lap de 459s/km com cadência a cair para 71), degradando em ondas até ao abandono (último km parcial a ritmo de caminhada, cadência 32)."
-    estado: "ativo, pós-prova — estado atual (inchaço? consegue andar normal? dor em repouso agora?) por confirmar"
-    notas: "Possível continuação/relação com o episódio de calcanhar de 2026-10-01 (mesma região), que já tinha sido sinalizado como preocupante antes da prova. Prioridade agora: avaliação médica a sério (já não é sobre a prova, é sobre a recuperação)."
+    estado: "2026-10-12 (2 dias depois): não muito mal, estimativa própria de ~1-2 semanas de paragem, sente-se bem no geral"
+    notas: "Confirmado mecanismo: fascite plantar diagnosticada antes da prova; ao correr defendeu involuntariamente o pé, sobrecarregando o Aquiles. Recuperação a bom ritmo 2 dias depois."
 # exemplo de entrada seguinte (atualizar conforme evolução):
 # entries:
 #   - date: 2026-09-01
