@@ -1,6 +1,57 @@
 # Objetivos ativos (estado atual, não é log — mas guarda histórico de revisões dentro de cada objetivo).
+#
+# A partir de 2026-10-12: foco mudou de maratona para 5km/10km/21km/trail,
+# com plano dinâmico (ver CLAUDE.md -> "Coaching: plano dinâmico, não
+# estático") em vez de calendário fixo. A maratona fica como "pausada",
+# não apagada — é histórico.
 objetivos:
+  - nome: "5km"
+    status: "ativo"
+    pb_atual:
+      tempo: null
+      data: null
+      prova_ou_treino: null
+    objetivo:
+      tempo: null
+      prazo: null
+    provas_em_mente: []
+    notas: "PB a confirmar — perguntar ao utilizador se tem uma marca recente de referência."
+
+  - nome: "10km"
+    status: "ativo"
+    pb_atual:
+      tempo: null
+      data: null
+      prova_ou_treino: null
+    objetivo:
+      tempo: null
+      prazo: null
+    provas_em_mente: []
+    notas: "PB a confirmar."
+
+  - nome: "21km (Meia Maratona)"
+    status: "ativo"
+    pb_atual:
+      tempo: null
+      data: null
+      prova_ou_treino: null
+    objetivo:
+      tempo: null
+      prazo: "Meia Maratona de Cascais, final de fevereiro de 2027 (data exata por confirmar)"
+    provas_em_mente:
+      - nome: "Meia Maratona de Cascais"
+        data: "2027-02 (data exata por confirmar)"
+    notas: "Próxima prova concreta do novo ciclo. PB atual e tempo-alvo por definir com o utilizador."
+
+  - nome: "Trail"
+    status: "ativo"
+    pb_atual: null
+    objetivo: null
+    provas_em_mente: []
+    notas: "Interesse confirmado (2026-10-12), sem detalhes/provas específicas ainda — perguntar."
+
   - nome: "Maratona"
+    status: "pausada (não cancelada) desde 2026-10-12 — foco mudou para 5km/10km/21km/trail"
     data_prova: 2026-10-10
     estado_final: "DNF (desistência) aos 27.24km — ver logs/exercise.yaml entrada 2026-10-10"
     objetivo_inicial:

@@ -60,6 +60,40 @@ análises, uma sessão de exercício, uma nota sobre como se sente, etc.):
    autorização, diz isso claramente ao utilizador e sugere os links de
    autorização em vez de assumir que vai resolver-se sozinho.
 
+## Coaching: plano dinâmico, não estático (desde 2026-10-12)
+
+A partir de 2026-10-12 o foco deixou de ser a maratona (pausada, não
+cancelada — ver `data/objetivos.yaml`). O foco passa a ser 5km, 10km,
+21km (meia maratona) e trail, com a Meia Maratona de Cascais (final de
+fevereiro de 2027, data exata por confirmar) como próxima prova concreta.
+
+O utilizador pediu explicitamente um treinador direto — análises honestas
+e realistas, não conversa mole — e um **plano dinâmico, não um calendário
+fixo escrito à partida**. A razão: planos rígidos partem-se quando a vida
+acontece (doença, lesão, férias), como se viu na maratona.
+
+Isto significa, para qualquer sessão futura deste projeto:
+
+1. **Nunca escrever um plano de treino de várias semanas de uma vez.**
+   Propor sempre só os próximos 1-4 dias, com base no estado atual.
+2. **Antes de prescrever o próximo treino, olhar para:**
+   - `logs/exercise.yaml` — carga/intensidade recente, há quanto tempo foi
+     o último treino duro, padrão de fadiga.
+   - `logs/lesoes.yaml` e `logs/symptoms.md` — qualquer dor/lesão ativa.
+   - O que o utilizador disser sobre como se sente nesse momento.
+   - Tempo até à próxima prova em `data/objetivos.yaml`.
+3. **Se houve uma paragem** (doença, lesão, férias, o que for): não voltar
+   ao "ponto onde o plano dizia que estarias". Recalcular a partir de onde
+   o utilizador está agora. Nunca tentar compensar tempo perdido com
+   aumento brusco de carga.
+4. **Ser direto.** Se uma marca não bate certo com o esforço relatado, ou
+   um treino correu mal, dizer isso claramente — o utilizador pediu
+   análises honestas, não validação.
+5. `data/objetivos.yaml` passa a ter um objetivo por distância (5km, 10km,
+   21km, trail), cada um com PB atual e objetivo, em vez de um único
+   objetivo de maratona. Atualizar o PB sempre que houver um treino/prova
+   que o bata.
+
 ## Privacidade
 
 Estes são dados de saúde pessoais e sensíveis. O repositório remoto
