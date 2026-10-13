@@ -1,5 +1,133 @@
 # Histórico de exercício físico / treinos.
+# Entradas detalhadas (com splits/nutrição) para os treinos-chave; entradas
+# mais simples para treinos de rotina, importadas em bloco via Coros MCP em
+# 2026-10-13 (histórico que não tínhamos registado treino a treino na altura).
 entries:
+  - date: 2026-08-02
+    hora_inicio: "19:06:00"
+    tipo: "corrida"
+    nome: "Long Run"
+    distancia_km: 13.24
+    duracao: "1:21:18"
+    pace_medio: "6:08/km"
+    fc_media: 137
+    calorias: 778
+    fonte: "Coros MCP"
+
+  - date: 2026-08-04
+    hora_inicio: "19:00:31"
+    tipo: "corrida"
+    nome: "São Domingos de Rana Corrida"
+    distancia_km: 4.83
+    duracao: "26:13"
+    pace_medio: "5:26/km"
+    fc_media: 141
+    calorias: 267
+    fonte: "Coros MCP"
+
+  - date: 2026-08-05
+    hora_inicio: "19:17:50"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 4.48
+    duracao: "28:53"
+    pace_medio: "6:27/km"
+    fc_media: 127
+    calorias: 231
+    fonte: "Coros MCP"
+
+  - date: 2026-08-08
+    hora_inicio: "11:35:22"
+    tipo: "corrida"
+    nome: "Marathon Pace"
+    distancia_km: 14.06
+    duracao: "1:15:39"
+    pace_medio: "5:23/km"
+    fc_media: 151
+    calorias: 836
+    fonte: "Coros MCP"
+    notas: "Sessão a ritmo de maratona."
+
+  - date: 2026-08-10
+    hora_inicio: "18:42:50"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 4.42
+    duracao: "30:36"
+    pace_medio: "6:56/km"
+    fc_media: 118
+    calorias: 232
+    fonte: "Coros MCP"
+
+  - date: 2026-08-12
+    hora_inicio: "19:07:52"
+    tipo: "corrida"
+    nome: "Marathon Pace"
+    distancia_km: 11.11
+    duracao: "1:09:08"
+    pace_medio: "6:13/km"
+    fc_media: 142
+    calorias: 664
+    fonte: "Coros MCP"
+    notas: "Sessão a ritmo de maratona."
+
+  - date: 2026-08-14
+    hora_inicio: "19:09:34"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 14.01
+    duracao: "1:15:51"
+    pace_medio: "5:25/km"
+    fc_media: 144
+    calorias: 832
+    fonte: "Coros MCP"
+
+  - date: 2026-08-16
+    hora_inicio: "11:48:20"
+    tipo: "corrida"
+    nome: "Sertã Corrida"
+    distancia_km: 11.01
+    duracao: "1:11:40"
+    pace_medio: "6:31/km"
+    fc_media: 156
+    calorias: 795
+    fonte: "Coros MCP"
+
+  - date: 2026-08-18
+    hora_inicio: "18:43:46"
+    tipo: "corrida"
+    nome: "Paço de Arcos Corrida"
+    distancia_km: 10.00
+    duracao: "54:10"
+    pace_medio: "5:25/km"
+    fc_media: 147
+    calorias: 576
+    fonte: "Coros MCP"
+    notas: "Referência de ~10km (54:10), não é um esforço de prova/máximo."
+
+  - date: 2026-08-19
+    hora_inicio: "19:36:57"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 5.01
+    duracao: "22:03"
+    pace_medio: "4:24/km"
+    fc_media: 157
+    calorias: 290
+    fonte: "Coros MCP"
+    notas: "Referência de ~5km (22:03) mais rápida nos dados, não é um esforço de prova/máximo."
+
+  - date: 2026-08-21
+    hora_inicio: "19:28:38"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 4.00
+    duracao: "22:49"
+    pace_medio: "5:42/km"
+    fc_media: 138
+    calorias: 231
+    fonte: "Coros MCP"
+
   - date: 2026-08-22
     hora_inicio: "15:14:22"
     tipo: "corrida"
@@ -62,6 +190,121 @@ entries:
       treino aponta para limitador de duração/glicogénio, não intolerância
       ao calor.
 
+  - date: 2026-08-25
+    hora_inicio: "19:11:18"
+    tipo: "corrida"
+    nome: "Agualva-Cacém Corrida"
+    distancia_km: 5.01
+    duracao: "50:41"
+    pace_medio: "10:08/km"
+    fc_media: 111
+    calorias: 275
+    fonte: "Coros MCP"
+    notas: "Pace muito lento/FC baixa — provável recuperação ativa pós-Cascais."
+
+  - date: 2026-08-26
+    hora_inicio: "19:00:34"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 2.19
+    duracao: "19:40"
+    pace_medio: "8:59/km"
+    fc_media: 127
+    calorias: 124
+    fonte: "Coros MCP"
+    notas: "Curta e lenta — fase de recuperação da dor de Aquiles/joelho pós-Cascais."
+
+  - date: 2026-08-28
+    hora_inicio: "18:49:17"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 4.05
+    duracao: "21:21"
+    pace_medio: "5:16/km"
+    fc_media: 146
+    calorias: 235
+    fonte: "Coros MCP"
+
+  - date: 2026-08-28
+    hora_inicio: "20:01:07"
+    tipo: "corrida"
+    nome: "Oeiras Corrida"
+    distancia_km: 4.14
+    duracao: "21:56"
+    pace_medio: "5:18/km"
+    fc_media: 153
+    calorias: 246
+    fonte: "Coros MCP"
+    notas: "Segunda corrida do mesmo dia."
+
+  - date: 2026-08-31
+    hora_inicio: "18:44:37"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 11.22
+    duracao: "1:02:35"
+    pace_medio: "5:35/km"
+    fc_media: 142
+    calorias: 638
+    fonte: "Coros MCP"
+
+  - date: 2026-09-01
+    hora_inicio: "19:05:57"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 6.19
+    duracao: "28:58"
+    pace_medio: "4:41/km"
+    fc_media: 152
+    calorias: 348
+    fonte: "Coros MCP"
+    notas: "Pace rápido para a distância — provável sessão de qualidade/fartlek."
+
+  - date: 2026-09-04
+    hora_inicio: "07:27:59"
+    tipo: "corrida"
+    nome: "Oeiras Corrida"
+    distancia_km: 15.01
+    duracao: "1:21:15"
+    pace_medio: "5:25/km"
+    fc_media: 150
+    calorias: 889
+    fonte: "Coros MCP"
+
+  - date: 2026-09-08
+    hora_inicio: "19:15:43"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 11.35
+    duracao: "1:05:25"
+    pace_medio: "5:46/km"
+    fc_media: 141
+    calorias: 658
+    fonte: "Coros MCP"
+
+  - date: 2026-09-09
+    hora_inicio: "19:31:31"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 5.26
+    duracao: "29:36"
+    pace_medio: "5:38/km"
+    fc_media: 140
+    calorias: 290
+    fonte: "Coros MCP"
+
+  - date: 2026-09-10
+    hora_inicio: "18:37:18"
+    tipo: "corrida"
+    nome: "Marathon Pace Intervals"
+    distancia_km: 11.63
+    duracao: "1:01:27"
+    pace_medio: "5:17/km"
+    fc_media: 151
+    calorias: 693
+    fonte: "Coros MCP"
+    notas: "Intervalos a ritmo de maratona, dois dias antes do longo de Parede."
+
   - date: 2026-09-12
     hora_inicio: "09:28:16"
     tipo: "corrida"
@@ -96,7 +339,10 @@ entries:
         claro, mas desta vez sem colapso de pace/cadência (cadência
         manteve-se 81-86 do início ao fim, nunca caiu para os 77-80 que se
         viu no Cascais). Potência também sobe gradualmente de ~150W para
-        ~165-176W ao longo do treino, coerente com a subida de FC.
+        ~165-176W ao longo do treino, coerente com a subida de FC. Soma dos
+        primeiros 21 splits (~21km) = ~1:58:34 — referência de ritmo de meia
+        maratona, mas NÃO é um esforço máximo: foi o troço inicial de um
+        treino de 35km a ritmo controlado, não uma tentativa a sério de PB.
     fueling_planeado_vs_executado:
       plano: "ver data/objetivos.yaml -> plano_fueling_longo_grande"
       eletrolitos_pre_treino: "tomados só ~30min antes (plano era 1.5-2h antes) — menos tempo de absorção que o ideal"
@@ -111,6 +357,107 @@ entries:
       silenciosos). Chegou à distância-alvo (~35km) com pace consistente,
       o que é uma melhoria clara face ao Cascais (31.28km) em termos de
       resistência de duração — apesar de calor pior e de estar doente.
+
+  - date: 2026-09-19
+    hora_inicio: "19:50:27"
+    tipo: "corrida"
+    nome: "Oeiras Corrida"
+    distancia_km: 6.59
+    duracao: "37:59"
+    pace_medio: "5:46/km"
+    fc_media: 141
+    calorias: 375
+    fonte: "Coros MCP"
+
+  - date: 2026-09-20
+    hora_inicio: "11:31:20"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 5.80
+    duracao: "31:56"
+    pace_medio: "5:30/km"
+    fc_media: 148
+    calorias: 342
+    fonte: "Coros MCP"
+
+  - date: 2026-09-22
+    hora_inicio: "19:23:58"
+    tipo: "corrida"
+    nome: "São Domingos de Rana Corrida"
+    distancia_km: 8.56
+    duracao: "48:16"
+    pace_medio: "5:38/km"
+    fc_media: 149
+    calorias: 515
+    fonte: "Coros MCP"
+
+  - date: 2026-09-23
+    hora_inicio: "18:11:05"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 6.51
+    duracao: "34:59"
+    pace_medio: "5:22/km"
+    fc_media: 149
+    calorias: 381
+    fonte: "Coros MCP"
+
+  - date: 2026-09-26
+    hora_inicio: "18:48:06"
+    tipo: "corrida"
+    nome: "Estoril Corrida"
+    distancia_km: 13.00
+    duracao: "1:16:44"
+    pace_medio: "5:54/km"
+    fc_media: 137
+    calorias: 732
+    fonte: "Coros MCP"
+
+  - date: 2026-09-27
+    hora_inicio: "18:36:02"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 6.26
+    duracao: "37:31"
+    pace_medio: "6:00/km"
+    fc_media: 140
+    calorias: 382
+    fonte: "Coros MCP"
+
+  - date: 2026-09-29
+    hora_inicio: "19:10:24"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 7.11
+    duracao: "40:01"
+    pace_medio: "5:38/km"
+    fc_media: 143
+    calorias: 406
+    fonte: "Coros MCP"
+
+  - date: 2026-10-01
+    hora_inicio: "18:20:34"
+    tipo: "corrida"
+    nome: "Oeiras Corrida"
+    distancia_km: 6.00
+    duracao: "40:36"
+    pace_medio: "6:46/km"
+    fc_media: 130
+    calorias: 355
+    fonte: "Coros MCP"
+    notas: "Mesmo dia em que a dor de calcanhar foi sinalizada (ver logs/lesoes.yaml)."
+
+  - date: 2026-10-08
+    hora_inicio: "18:54:38"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 1.66
+    duracao: "10:34"
+    pace_medio: "6:21/km"
+    fc_media: 141
+    calorias: 99
+    fonte: "Coros MCP"
+    notas: "Curta, 2 dias antes da maratona — provável shakeout/teste pré-prova."
 
   - date: 2026-10-10
     hora_inicio: "08:16:19"

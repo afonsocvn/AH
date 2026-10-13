@@ -8,26 +8,34 @@ objetivos:
   - nome: "5km"
     status: "ativo"
     pb_atual:
-      tempo: null
-      data: null
-      prova_ou_treino: null
+      tempo: "22:03"
+      data: "2026-08-19"
+      prova_ou_treino: "treino (Parede, 5.01km a 4:24/km) — NÃO é esforço de prova/máximo, é só a melhor referência disponível nos dados"
+    previsao_algoritmo_coros:
+      tempo: "20:51"
+      fonte: "Coros Fitness Assessment, 2026-10-13, baseado em VO2max=59"
+      aviso: "é uma previsão de VO2max/economia, não uma marca corrida — tende a ser otimista porque assume pacing e condições ideais"
     objetivo:
       tempo: null
       prazo: null
     provas_em_mente: []
-    notas: "PB a confirmar — perguntar ao utilizador se tem uma marca recente de referência."
+    notas: "Sem teste a sério de 5km ainda (prova ou time-trial dedicado). Vale a pena fazer um para teres um PB real."
 
   - nome: "10km"
     status: "ativo"
     pb_atual:
-      tempo: null
-      data: null
-      prova_ou_treino: null
+      tempo: "54:10"
+      data: "2026-08-18"
+      prova_ou_treino: "treino (Paço de Arcos, 10.00km a 5:25/km) — NÃO é esforço de prova/máximo"
+    previsao_algoritmo_coros:
+      tempo: "43:17"
+      fonte: "Coros Fitness Assessment, 2026-10-13"
+      aviso: "mesma ressalva — previsão algorítmica, não marca corrida. O gap grande (54:10 treino vs 43:17 previsão) mostra que nunca testaste a sério a este ritmo."
     objetivo:
       tempo: null
       prazo: null
     provas_em_mente: []
-    notas: "PB a confirmar."
+    notas: "PB real por fazer — um 10km a esforço de prova mostraria onde estás de verdade."
 
   - nome: "21km (Meia Maratona)"
     status: "ativo"
@@ -35,13 +43,21 @@ objetivos:
       tempo: null
       data: null
       prova_ou_treino: null
+    referencia_embutida:
+      tempo: "~1:58:34"
+      fonte: "soma dos primeiros 21km do treino longo de Parede (2026-09-12)"
+      aviso: "NÃO é um esforço máximo de 21km — foi o troço inicial de um treino de 35km a ritmo controlado. Só dá uma ideia de piso, não de capacidade real a esforço de prova."
+    previsao_algoritmo_coros:
+      tempo: "1:36:22"
+      fonte: "Coros Fitness Assessment, 2026-10-13"
+      aviso: "previsão algorítmica otimista — diferença grande (1:58 'piso' vs 1:36:22 previsão) porque nunca correste 21km a esforço de prova a sério."
     objetivo:
       tempo: null
       prazo: "Meia Maratona de Cascais, final de fevereiro de 2027 (data exata por confirmar)"
     provas_em_mente:
       - nome: "Meia Maratona de Cascais"
         data: "2027-02 (data exata por confirmar)"
-    notas: "Próxima prova concreta do novo ciclo. PB atual e tempo-alvo por definir com o utilizador."
+    notas: "Próxima prova concreta do novo ciclo. PB real só vai existir depois da prova de Cascais ou de um time-trial antes."
 
   - nome: "Trail"
     status: "ativo"
@@ -54,6 +70,7 @@ objetivos:
     status: "pausada (não cancelada) desde 2026-10-12 — foco mudou para 5km/10km/21km/trail"
     data_prova: 2026-10-10
     estado_final: "DNF (desistência) aos 27.24km — ver logs/exercise.yaml entrada 2026-10-10"
+    previsao_algoritmo_coros: "3:22:59 (Coros Fitness Assessment, 2026-10-13, VO2max=59) — bem mais otimista que a estimativa de campo (~3:59, feita a partir do treino real de 35km em Parede). O algoritmo não sabe de calor, fueling, ou lesões — a estimativa de campo é mais fiável para este atleta específico."
     objetivo_inicial:
       tempo: "3:30:00"
       pace: "5:00/km"
@@ -160,3 +177,20 @@ objetivos:
       nota: "Plano seguido até ao taper; a prova em si correu mal por doença+lesão aguda no dia, não por falha do plano de treino (ver revisão de 2026-10-10)."
     nota_bpm: "parte do BPM alto em Parede foi calor+doença+fadiga acumulada, não só falta de fitness"
     notas: ""
+
+# Estado geral (via Coros MCP) — consultar antes de prescrever o próximo treino.
+estado_coros_2026-10-13:
+  recovery: "100%, 'Heavy training allowed', 0h para recuperação total"
+  vo2max: 59
+  running_level: 87
+  threshold_pace: "4:21/km"
+  carga_recente: >
+    Pico de carga de curto prazo em 2026-10-10 (dia da maratona, load=87,
+    ratio=1.35) seguido de queda a partir de 2026-10-11 (sem corridas
+    registadas desde a prova). Antes da prova, taper visível de 2026-10-05
+    a 2026-10-09 (load a cair de 47 para 16-19, comentário "Decreasing").
+  nota: >
+    Recovery a 100% é sobre carga cardiovascular/muscular geral — não diz
+    nada sobre o estado da fascite plantar/Aquiles, que é uma questão de
+    tecido local, não de fadiga sistémica. Não usar isto como luz verde
+    para voltar a correr sem confirmar os dois sítios separadamente.

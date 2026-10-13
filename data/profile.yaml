@@ -1,12 +1,12 @@
 # Dados de base — atualizar quando algo mudar (não é um log, é o estado atual)
-last_updated: 2026-09-03
+last_updated: 2026-10-13
 
-nome: null
-idade: 28   # referido em 2026-09-03
-data_nascimento: null
-sexo: null
-altura_cm: null
-peso_kg_aprox: 52   # referido em 2026-09-03, ver logs/measurements.yaml para histórico real
+nome: "afonsocvn"
+idade: 28
+data_nascimento: "1998-05-10"
+sexo: "masculino"
+altura_cm: 169.0
+peso_kg_aprox: 52   # confirmado via Coros MCP em 2026-10-13, ver logs/measurements.yaml para histórico
 
 condicoes_cronicas: []
 alergias: []
