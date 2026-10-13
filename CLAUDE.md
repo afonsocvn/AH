@@ -43,6 +43,19 @@ entre registos.
   scripts/analise_treino.py logs/exercise.yaml`).
 - `data/equipamento.yaml` — sapatilhas e quilómetros acumulados (fator
   de lesão mensurável).
+- `scripts/dashboard.html` — dashboard visual publicado como Artifact
+  (link: https://claude.ai/artifact/J6rHcj5CCpJHmbF57nyJQS). Mostra
+  intervalos por distância, radar de performance, scatter pace/FC, EF,
+  volume semanal e composição de treino. Tem botão de refresh que chama
+  a Coros ao vivo (capacidade `mcp`) e grava sessões novas na coleção
+  `pending_activities` da base de dados do artifact (capacidade `db`).
+  **No início de qualquer sessão onde haja dados novos para processar,
+  verificar essa coleção** (`ArtifactData` action `list`, collection
+  `pending_activities`, nesse URL) — processar o que lá estiver para
+  `logs/exercise.yaml` e apagar cada documento depois de processado.
+  Depois de atualizar dados relevantes (novo treino, nova previsão, novo
+  PB), regenerar o snapshot embutido no HTML e publicar de novo no mesmo
+  file_path para manter o mesmo link.
 
 ## Comportamento esperado
 
