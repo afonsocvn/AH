@@ -66,6 +66,47 @@ sessão de treino "Threshold Intervals", não um teste a sério) — há
 margem real para um 10k mais rápido do que 50:01 se for testado a
 esforço de prova. Isto é um insight real dos teus dados, não um palpite.
 
+### 3.1 Previsões como intervalos, não valores exatos (desde 2026-10-13)
+
+Um número único ("vais fazer 48:17") passa confiança falsa — não temos
+dados suficientes para esse nível de precisão, e um valor exato esconde
+a incerteza real. A partir de agora, cada distância em
+`data/objetivos.yaml` tem um `intervalo_capacidade_atual`, construído a
+partir do espalhamento das próprias previsões cruzadas da secção acima
+(ex: 10k previsto entre 45:52 e 48:17 por duas distâncias diferentes —
+o intervalo é esse espalhamento, ajustado se o registo real estiver fora
+dele). Isto é honesto: mostra o leque de valores plausíveis, não finge
+precisão que não existe.
+
+### 3.2 Potencial a longo prazo (1-2 anos) — sério, não hype
+
+Pedido explícito: "quero que sejas sério e que vás mostrando
+realisticamente onde posso chegar". A abordagem:
+
+- **Não extrapolar a tendência recente de EF (+18.5% em 5 meses)
+  indefinidamente para a frente.** Esse ritmo é típico de alguém a
+  estruturar o treino pela primeira vez (ganhos iniciais grandes) — a
+  literatura de fisiologia do exercício documenta consistentemente que
+  esses ganhos abrandam com o tempo (fenómeno de "diminishing returns"/
+  platô à medida que se aproxima do teto individual).
+- **Referência usada:** para atletas recreativos já com alguma base
+  (não é o caso de "zero para herói" que por vezes aparece em estudos
+  com ganhos de VO2max de 50-90%+), o realista documentado é mais modesto
+  — tipicamente melhorias de performance na ordem dos 5-15% de VO2max
+  ao longo de 1-2 anos de treino consistente, com ganhos maiores no
+  início e a abrandar depois. Fonte: revisão geral de literatura de
+  treino aeróbico em corredores (ver conversa de 2026-10-13 para links).
+- **Tradução para tempos de prova:** usei uma faixa conservadora de
+  3-8% de melhoria de tempo de prova em 1-2 anos (menor que o % de
+  VO2max, porque tempo de prova também depende de economia de corrida,
+  execução, etc., que não melhoram ao mesmo ritmo) para gerar o
+  `potencial_1_2_anos` de cada distância.
+- **Isto é ilustrativo, não uma promessa.** Depende inteiramente de
+  consistência, evitar lesões, e quanto tempo é realmente dedicado a
+  correr vs. outras atividades (escalada, surf, etc. — ver filosofia em
+  `CLAUDE.md`). Atualizar estes números à medida que houver mais dados
+  reais, não ficar preso aos valores de 2026-10-13 para sempre.
+
 ## 4. Sinal de alerta de cadência (prevenção de lesão)
 
 - **Observação empírica (não genérica):** nos dois eventos onde este

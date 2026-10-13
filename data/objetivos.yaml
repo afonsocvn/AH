@@ -11,10 +11,19 @@ objetivos:
       tempo: "22:03"
       data: "2026-08-19"
       prova_ou_treino: "treino (Parede, 5.01km a 4:24/km) — NÃO é esforço de prova/máximo, é só a melhor referência disponível nos dados"
-    previsao_algoritmo_coros:
-      tempo: "20:51"
-      fonte: "Coros Fitness Assessment, 2026-10-13, baseado em VO2max=59"
-      aviso: "é uma previsão de VO2max/economia, não uma marca corrida — tende a ser otimista porque assume pacing e condições ideais"
+    intervalo_capacidade_atual:
+      intervalo: "21:30 - 23:00"
+      metodo: "previsões cruzadas de Riegel a partir do 10k e do 21k (23:09-23:59), ajustado para baixo porque o registo real (22:03) já bate essas previsões — ver data/modelo_treino.md"
+    potencial_1_2_anos:
+      intervalo: "20:00 - 21:10"
+      aviso: >
+        Ilustrativo, não promessa. Baseado em ganhos típicos documentados
+        para atletas recreativos já com alguma base (3-8% de melhoria de
+        performance em 1-2 anos de treino consistente, não o ritmo de
+        melhoria recente de 18.5% em 5 meses — esse é um ganho inicial
+        típico de quem está a estruturar o treino pela primeira vez, e
+        tende a abrandar). Depende muito de consistência, evitar lesões,
+        e quanto tempo realmente dedicas a correr vs. escalada/surf/etc.
     objetivo:
       tempo: null
       prazo: null
@@ -27,15 +36,17 @@ objetivos:
       tempo: "50:01"
       data: "2026-07-02"
       prova_ou_treino: "treino 'Threshold Intervals' (10.00km exatos a 5:00/km, FC média 146) — NÃO é esforço de prova/máximo, mas é sessão de qualidade, referência mais forte que uma corrida normal"
-    previsao_algoritmo_coros:
-      tempo: "43:17"
-      fonte: "Coros Fitness Assessment, 2026-10-13"
-      aviso: "previsão algorítmica, não marca corrida. Gap ainda grande (50:01 vs 43:17) mas menor do que parecia antes de alargar o histórico."
+    intervalo_capacidade_atual:
+      intervalo: "46:00 - 48:30"
+      metodo: "previsões cruzadas de Riegel a partir do 5k e do 21k (45:52-48:17) — o registo real (50:01) é mais lento que ambas, por isso a capacidade real provável é mais rápida que o PB registado"
+    potencial_1_2_anos:
+      intervalo: "42:30 - 45:30"
+      aviso: "mesmo aviso do 5km — ilustrativo, assume treino consistente, não garantido."
     objetivo:
       tempo: null
       prazo: null
     provas_em_mente: []
-    notas: "PB real por fazer — um 10km a esforço de prova mostraria onde estás de verdade."
+    notas: "PB real por fazer — um 10km a esforço de prova mostraria onde estás de verdade. É a distância com mais incerteza agora."
 
   - nome: "21km (Meia Maratona)"
     status: "ativo"
@@ -47,10 +58,12 @@ objetivos:
       tempo: "~1:58:34"
       fonte: "soma dos primeiros 21km do treino longo de Parede (2026-09-12)"
       aviso: "esta era mais lenta — ritmo controlado dentro de um treino de 35km, não um esforço dedicado. O treino de limiar de 30/07 (1:46:40) é a referência mais forte."
-    previsao_algoritmo_coros:
-      tempo: "1:36:22"
-      fonte: "Coros Fitness Assessment, 2026-10-13"
-      aviso: "previsão algorítmica otimista, mas já bem mais perto do 1:46:40 real do que do 1:58 — o teu threshold pace da Coros (4:21/km) explica a distância até ao 1:36:22."
+    intervalo_capacidade_atual:
+      intervalo: "1:43:00 - 1:48:00"
+      metodo: "previsões cruzadas de Riegel a partir do 5k e do 10k (1:41:13-1:50:21), com o registo real (1:46:40) dentro desse intervalo"
+    potencial_1_2_anos:
+      intervalo: "1:31:00 - 1:37:00"
+      aviso: "mesmo aviso — ilustrativo. Para Cascais (fev 2027, ~4 meses de treino a partir de agora) o realista é ficar mais perto do intervalo atual do que deste, a não ser que o treino seja consistente e focado nesse período."
     objetivo:
       tempo: null
       prazo: "Meia Maratona de Cascais, final de fevereiro de 2027 (data exata por confirmar)"
@@ -209,6 +222,10 @@ estado_coros_2026-10-13:
     para voltar a correr sem confirmar os dois sítios separadamente.
 
 # Valor de performance (ver data/modelo_treino.md para a metodologia completa).
+# Nota: a partir de 2026-10-13, as previsões por distância usam intervalos
+# (ver "intervalo_capacidade_atual" e "potencial_1_2_anos" em cada objetivo
+# acima), construídos a partir desta tabela cruzada, em vez de um valor
+# único — mais honesto dado o nível de incerteza real.
 valor_performance_2026-10-13:
   eficiencia_aerobica_ef:
     tendencia: "+18.5% em 22.4 semanas (finais de abril a outubro 2026), 52 corridas fáceis"

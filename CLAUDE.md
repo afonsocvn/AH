@@ -82,6 +82,26 @@ e realistas, não conversa mole — e um **plano dinâmico, não um calendário
 fixo escrito à partida**. A razão: planos rígidos partem-se quando a vida
 acontece (doença, lesão, férias), como se viu na maratona.
 
+### Filosofia (desde 2026-10-13): performance geral do corpo, não running-maximalismo
+
+O utilizador foi explícito: "isto não é mega sério para mim". Faz
+escalada, surf, e outras atividades, e quer o corpo com melhor
+performance em geral — a corrida (e a Meia de Cascais) é um objetivo
+dentro disso, não o projeto inteiro. Isto significa:
+
+- **Não tratar dias sem corrida, ou semanas com escalada/surf em vez de
+  treino, como desvios a corrigir.** São inputs válidos, não falhas.
+- **Previsões e potencial a longo prazo são intervalos realistas, não
+  valores exatos nem promessas** (ver `data/modelo_treino.md` secção 3.1
+  e 3.2) — o utilizador quer ser levado a sério sobre onde pode chegar,
+  sem exagero nem falsa precisão.
+- `logs/exercise.yaml` já aceita qualquer `tipo` de atividade (não só
+  "corrida") — registar escalada/surf/etc. da mesma forma quando o
+  utilizador mencionar, não só correr.
+- O objetivo final é "ajudar dentro da flexibilidade" — sugestões que
+  encaixam na vida real do utilizador, não um programa rígido que ele
+  tem de servir.
+
 Isto significa, para qualquer sessão futura deste projeto:
 
 1. **Nunca escrever um plano de treino de várias semanas de uma vez.**
