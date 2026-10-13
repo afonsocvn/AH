@@ -24,13 +24,13 @@ objetivos:
   - nome: "10km"
     status: "ativo"
     pb_atual:
-      tempo: "54:10"
-      data: "2026-08-18"
-      prova_ou_treino: "treino (Paço de Arcos, 10.00km a 5:25/km) — NÃO é esforço de prova/máximo"
+      tempo: "50:01"
+      data: "2026-07-02"
+      prova_ou_treino: "treino 'Threshold Intervals' (10.00km exatos a 5:00/km, FC média 146) — NÃO é esforço de prova/máximo, mas é sessão de qualidade, referência mais forte que uma corrida normal"
     previsao_algoritmo_coros:
       tempo: "43:17"
       fonte: "Coros Fitness Assessment, 2026-10-13"
-      aviso: "mesma ressalva — previsão algorítmica, não marca corrida. O gap grande (54:10 treino vs 43:17 previsão) mostra que nunca testaste a sério a este ritmo."
+      aviso: "previsão algorítmica, não marca corrida. Gap ainda grande (50:01 vs 43:17) mas menor do que parecia antes de alargar o histórico."
     objetivo:
       tempo: null
       prazo: null
@@ -40,31 +40,44 @@ objetivos:
   - nome: "21km (Meia Maratona)"
     status: "ativo"
     pb_atual:
-      tempo: null
-      data: null
-      prova_ou_treino: null
+      tempo: "1:46:40"
+      data: "2026-07-30"
+      prova_ou_treino: "treino 'Threshold Intervals' (21.12km a 5:03/km, FC média 162) — NÃO é teste oficial de prova, mas é o esforço mais sério e mais próximo da distância de meia maratona nos dados"
     referencia_embutida:
       tempo: "~1:58:34"
       fonte: "soma dos primeiros 21km do treino longo de Parede (2026-09-12)"
-      aviso: "NÃO é um esforço máximo de 21km — foi o troço inicial de um treino de 35km a ritmo controlado. Só dá uma ideia de piso, não de capacidade real a esforço de prova."
+      aviso: "esta era mais lenta — ritmo controlado dentro de um treino de 35km, não um esforço dedicado. O treino de limiar de 30/07 (1:46:40) é a referência mais forte."
     previsao_algoritmo_coros:
       tempo: "1:36:22"
       fonte: "Coros Fitness Assessment, 2026-10-13"
-      aviso: "previsão algorítmica otimista — diferença grande (1:58 'piso' vs 1:36:22 previsão) porque nunca correste 21km a esforço de prova a sério."
+      aviso: "previsão algorítmica otimista, mas já bem mais perto do 1:46:40 real do que do 1:58 — o teu threshold pace da Coros (4:21/km) explica a distância até ao 1:36:22."
     objetivo:
       tempo: null
       prazo: "Meia Maratona de Cascais, final de fevereiro de 2027 (data exata por confirmar)"
     provas_em_mente:
       - nome: "Meia Maratona de Cascais"
         data: "2027-02 (data exata por confirmar)"
-    notas: "Próxima prova concreta do novo ciclo. PB real só vai existir depois da prova de Cascais ou de um time-trial antes."
+    notas: "Próxima prova concreta do novo ciclo. 1:46:40 é um ponto de partida sólido para a preparação até Cascais."
 
   - nome: "Trail"
     status: "ativo"
     pb_atual: null
+    historico_trail:
+      - data: "2026-05-01"
+        nome: "Colares Corrida de Trilha"
+        distancia_km: 5.00
+        tempo: "33:21"
+        pace: "6:40/km"
+        fc_media: 154
+      - data: "2026-05-16"
+        nome: "Alcabideche Corrida de Trilha"
+        distancia_km: 10.01
+        tempo: "1:05:35"
+        pace: "6:33/km"
+        fc_media: 173
     objetivo: null
     provas_em_mente: []
-    notas: "Interesse confirmado (2026-10-12), sem detalhes/provas específicas ainda — perguntar."
+    notas: "Interesse confirmado (2026-10-12). Já tem 2 saídas de trail reais nos dados (Colares, Alcabideche), ambas na zona de Sintra/Cascais — perguntar se quer continuar nessa zona ou tem prova específica em mente."
 
   - nome: "Maratona"
     status: "pausada (não cancelada) desde 2026-10-12 — foco mudou para 5km/10km/21km/trail"

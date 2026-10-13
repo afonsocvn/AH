@@ -3,6 +3,603 @@
 # mais simples para treinos de rotina, importadas em bloco via Coros MCP em
 # 2026-10-13 (histórico que não tínhamos registado treino a treino na altura).
 entries:
+  - date: 2026-01-21
+    hora_inicio: "13:10:06"
+    tipo: "corrida"
+    nome: "Tignes Corrida"
+    distancia_km: 0.84
+    duracao: "4:33"
+    pace_medio: "5:24/km"
+    fc_media: 105
+    calorias: 19
+    fonte: "Coros MCP"
+
+  - date: 2026-02-15
+    hora_inicio: "18:20:53"
+    tipo: "corrida"
+    nome: "Oeiras Corrida"
+    distancia_km: 0.95
+    duracao: "6:24"
+    pace_medio: "6:45/km"
+    fc_media: 137
+    calorias: 42
+    fonte: "Coros MCP"
+
+  - date: 2026-02-26
+    hora_inicio: "19:01:49"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 2.08
+    duracao: "11:36"
+    pace_medio: "5:34/km"
+    fc_media: 138
+    calorias: 77
+    fonte: "Coros MCP"
+
+  - date: 2026-04-12
+    hora_inicio: "11:55:16"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 3.49
+    duracao: "20:31"
+    pace_medio: "5:52/km"
+    fc_media: 140
+    calorias: 131
+    fonte: "Coros MCP"
+
+  - date: 2026-04-15
+    hora_inicio: "19:41:30"
+    tipo: "corrida"
+    nome: "São Domingos de Rana Corrida"
+    distancia_km: 3.07
+    duracao: "18:11"
+    pace_medio: "5:55/km"
+    fc_media: 146
+    calorias: 124
+    fonte: "Coros MCP"
+
+  - date: 2026-04-22
+    hora_inicio: "19:48:24"
+    tipo: "corrida"
+    nome: "São Domingos de Rana Corrida"
+    distancia_km: 5.00
+    duracao: "26:42"
+    pace_medio: "5:20/km"
+    fc_media: 156
+    calorias: 203
+    fonte: "Coros MCP"
+
+  - date: 2026-04-27
+    hora_inicio: "19:38:34"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 6.00
+    duracao: "39:13"
+    pace_medio: "6:32/km"
+    fc_media: 148
+    calorias: 277
+    fonte: "Coros MCP"
+
+  - date: 2026-05-01
+    hora_inicio: "15:57:30"
+    tipo: "trail"
+    nome: "Colares Corrida de Trilha"
+    distancia_km: 5.00
+    duracao: "33:21"
+    pace_medio: "6:40/km"
+    fc_media: 154
+    calorias: 250
+    fonte: "Coros MCP"
+
+  - date: 2026-05-03
+    hora_inicio: "16:13:09"
+    tipo: "corrida"
+    nome: "Agualva-Cacém Corrida"
+    distancia_km: 7.18
+    duracao: "42:20"
+    pace_medio: "5:54/km"
+    fc_media: 152
+    calorias: 312
+    fonte: "Coros MCP"
+
+  - date: 2026-05-05
+    hora_inicio: "18:53:43"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 6.50
+    duracao: "40:19"
+    pace_medio: "6:12/km"
+    fc_media: 153
+    calorias: 300
+    fonte: "Coros MCP"
+
+  - date: 2026-05-08
+    hora_inicio: "18:54:12"
+    tipo: "corrida"
+    nome: "Paço de Arcos Corrida"
+    distancia_km: 0.437
+    duracao: "2:45"
+    pace_medio: "6:17/km"
+    fc_media: 124
+    calorias: 15
+    fonte: "Coros MCP"
+
+  - date: 2026-05-08
+    hora_inicio: "18:57:32"
+    tipo: "corrida"
+    nome: "Paço de Arcos Corrida"
+    distancia_km: 5.00
+    duracao: "24:37"
+    pace_medio: "4:55/km"
+    fc_media: 167
+    calorias: 208
+    fonte: "Coros MCP"
+
+  - date: 2026-05-10
+    hora_inicio: "12:22:14"
+    tipo: "corrida"
+    nome: "São Domingos de Rana Corrida"
+    distancia_km: 1.85
+    duracao: "10:04"
+    pace_medio: "5:27/km"
+    fc_media: 147
+    calorias: 119
+    fonte: "Coros MCP"
+
+  - date: 2026-05-13
+    hora_inicio: "18:34:25"
+    tipo: "corrida"
+    nome: "Agualva-Cacém Corrida"
+    distancia_km: 7.00
+    duracao: "34:32"
+    pace_medio: "4:56/km"
+    fc_media: 159
+    calorias: 412
+    fonte: "Coros MCP"
+
+  - date: 2026-05-15
+    hora_inicio: "13:06:02"
+    tipo: "corrida"
+    nome: "São Domingos de Rana Corrida"
+    distancia_km: 3.00
+    duracao: "24:22"
+    pace_medio: "8:07/km"
+    fc_media: 143
+    calorias: 200
+    fonte: "Coros MCP"
+
+  - date: 2026-05-16
+    hora_inicio: "11:03:45"
+    tipo: "trail"
+    nome: "Alcabideche Corrida de Trilha"
+    distancia_km: 10.01
+    duracao: "1:05:35"
+    pace_medio: "6:33/km"
+    fc_media: 173
+    calorias: 579
+    fonte: "Coros MCP"
+
+  - date: 2026-05-19
+    hora_inicio: "19:11:07"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 3.05
+    duracao: "26:59"
+    pace_medio: "8:51/km"
+    fc_media: 118
+    calorias: 196
+    fonte: "Coros MCP"
+
+  - date: 2026-05-24
+    hora_inicio: "09:31:04"
+    tipo: "corrida"
+    nome: "Oeiras Corrida"
+    distancia_km: 11.77
+    duracao: "1:06:42"
+    pace_medio: "5:40/km"
+    fc_media: 182
+    calorias: 910
+    fonte: "Coros MCP"
+
+  - date: 2026-05-27
+    hora_inicio: "09:59:27"
+    tipo: "corrida"
+    nome: "10km leves + 6 acelerações"
+    distancia_km: 7.29
+    duracao: "47:27"
+    pace_medio: "6:31/km"
+    fc_media: 150
+    calorias: 514
+    fonte: "Coros MCP"
+
+  - date: 2026-05-29
+    hora_inicio: "10:59:48"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 5.46
+    duracao: "33:57"
+    pace_medio: "6:13/km"
+    fc_media: 146
+    calorias: 375
+    fonte: "Coros MCP"
+
+  - date: 2026-05-31
+    hora_inicio: "09:14:20"
+    tipo: "corrida"
+    nome: "Santa Luzia Corrida"
+    distancia_km: 14.27
+    duracao: "1:20:03"
+    pace_medio: "5:37/km"
+    fc_media: 167
+    calorias: 1037
+    fonte: "Coros MCP"
+
+  - date: 2026-06-02
+    hora_inicio: "10:03:55"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 9.00
+    duracao: "56:05"
+    pace_medio: "6:14/km"
+    fc_media: 154
+    calorias: 627
+    fonte: "Coros MCP"
+
+  - date: 2026-06-03
+    hora_inicio: "10:28:38"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 5.75
+    duracao: "36:58"
+    pace_medio: "6:26/km"
+    fc_media: 136
+    calorias: 345
+    fonte: "Coros MCP"
+
+  - date: 2026-06-04
+    hora_inicio: "10:12:27"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 12.00
+    duracao: "1:12:56"
+    pace_medio: "6:05/km"
+    fc_media: 154
+    calorias: 816
+    fonte: "Coros MCP"
+
+  - date: 2026-06-05
+    hora_inicio: "10:29:35"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 7.35
+    duracao: "36:32"
+    pace_medio: "4:58/km"
+    fc_media: 154
+    calorias: 443
+    fonte: "Coros MCP"
+
+  - date: 2026-06-07
+    hora_inicio: "10:04:09"
+    tipo: "corrida"
+    nome: "Long Run"
+    distancia_km: 16.01
+    duracao: "1:40:51"
+    pace_medio: "6:18/km"
+    fc_media: 150
+    calorias: 1072
+    fonte: "Coros MCP"
+
+  - date: 2026-06-08
+    hora_inicio: "17:54:27"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 4.28
+    duracao: "28:24"
+    pace_medio: "6:38/km"
+    fc_media: 149
+    calorias: 293
+    fonte: "Coros MCP"
+
+  - date: 2026-06-10
+    hora_inicio: "18:07:10"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 7.61
+    duracao: "41:30"
+    pace_medio: "5:27/km"
+    fc_media: 149
+    calorias: 442
+    fonte: "Coros MCP"
+
+  - date: 2026-06-12
+    hora_inicio: "09:58:31"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 7.86
+    duracao: "45:30"
+    pace_medio: "5:47/km"
+    fc_media: 150
+    calorias: 512
+    fonte: "Coros MCP"
+
+  - date: 2026-06-14
+    hora_inicio: "12:20:21"
+    tipo: "corrida"
+    nome: "Marathon Pace"
+    distancia_km: 10.24
+    duracao: "54:15"
+    pace_medio: "5:18/km"
+    fc_media: 159
+    calorias: 690
+    fonte: "Coros MCP"
+
+  - date: 2026-06-15
+    hora_inicio: "19:19:05"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 8.23
+    duracao: "46:53"
+    pace_medio: "5:42/km"
+    fc_media: 147
+    calorias: 496
+    fonte: "Coros MCP"
+
+  - date: 2026-06-17
+    hora_inicio: "10:24:16"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 6.59
+    duracao: "43:32"
+    pace_medio: "6:36/km"
+    fc_media: 141
+    calorias: 414
+    fonte: "Coros MCP"
+
+  - date: 2026-06-20
+    hora_inicio: "11:50:26"
+    tipo: "corrida"
+    nome: "Long Run"
+    distancia_km: 14.42
+    duracao: "1:29:38"
+    pace_medio: "6:13/km"
+    fc_media: 146
+    calorias: 950
+    fonte: "Coros MCP"
+
+  - date: 2026-06-21
+    hora_inicio: "11:04:08"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 7.00
+    duracao: "42:06"
+    pace_medio: "6:01/km"
+    fc_media: 137
+    calorias: 455
+    fonte: "Coros MCP"
+
+  - date: 2026-06-22
+    hora_inicio: "19:00:53"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 8.73
+    duracao: "47:25"
+    pace_medio: "5:26/km"
+    fc_media: 148
+    calorias: 510
+    fonte: "Coros MCP"
+
+  - date: 2026-06-24
+    hora_inicio: "18:18:00"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 4.72
+    duracao: "28:47"
+    pace_medio: "6:06/km"
+    fc_media: 144
+    calorias: 286
+    fonte: "Coros MCP"
+
+  - date: 2026-06-25
+    hora_inicio: "12:22:42"
+    tipo: "corrida"
+    nome: "Threshold Intervals"
+    distancia_km: 21.20
+    duracao: "2:00:16"
+    pace_medio: "5:40/km"
+    fc_media: 156
+    calorias: 1431
+    fonte: "Coros MCP"
+    notas: "Sessão de limiar quase à distância de meia maratona."
+
+  - date: 2026-06-28
+    hora_inicio: "19:02:00"
+    tipo: "corrida"
+    nome: "Long Run"
+    distancia_km: 16.48
+    duracao: "1:40:12"
+    pace_medio: "6:05/km"
+    fc_media: 142
+    calorias: 1071
+    fonte: "Coros MCP"
+
+  - date: 2026-06-30
+    hora_inicio: "18:52:08"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 8.78
+    duracao: "50:32"
+    pace_medio: "5:45/km"
+    fc_media: 145
+    calorias: 528
+    fonte: "Coros MCP"
+
+  - date: 2026-07-01
+    hora_inicio: "12:29:14"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 7.00
+    duracao: "40:09"
+    pace_medio: "5:44/km"
+    fc_media: 148
+    calorias: 468
+    fonte: "Coros MCP"
+
+  - date: 2026-07-02
+    hora_inicio: "21:50:15"
+    tipo: "corrida"
+    nome: "Threshold Intervals"
+    distancia_km: 10.00
+    duracao: "50:01"
+    pace_medio: "5:00/km"
+    fc_media: 146
+    calorias: 656
+    fonte: "Coros MCP"
+    notas: "Melhor referência de ~10km nos dados até agora (10.00km exatos, 50:01)."
+
+  - date: 2026-07-05
+    hora_inicio: "19:47:11"
+    tipo: "corrida"
+    nome: "Long Run"
+    distancia_km: 14.55
+    duracao: "1:24:27"
+    pace_medio: "5:48/km"
+    fc_media: 148
+    calorias: 874
+    fonte: "Coros MCP"
+
+  - date: 2026-07-07
+    hora_inicio: "11:23:38"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 8.82
+    duracao: "55:34"
+    pace_medio: "6:18/km"
+    fc_media: 138
+    calorias: 531
+    fonte: "Coros MCP"
+
+  - date: 2026-07-08
+    hora_inicio: "19:09:45"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 3.01
+    duracao: "18:30"
+    pace_medio: "6:09/km"
+    fc_media: 142
+    calorias: 189
+    fonte: "Coros MCP"
+
+  - date: 2026-07-10
+    hora_inicio: "10:02:17"
+    tipo: "corrida"
+    nome: "São Domingos de Rana Corrida"
+    distancia_km: 7.01
+    duracao: "35:00"
+    pace_medio: "5:00/km"
+    fc_media: 152
+    calorias: 435
+    fonte: "Coros MCP"
+
+  - date: 2026-07-13
+    hora_inicio: "09:06:19"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 8.82
+    duracao: "1:10:22"
+    pace_medio: "7:59/km"
+    fc_media: 127
+    calorias: 562
+    fonte: "Coros MCP"
+
+  - date: 2026-07-15
+    hora_inicio: "09:16:38"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 6.11
+    duracao: "39:25"
+    pace_medio: "6:27/km"
+    fc_media: 133
+    calorias: 376
+    fonte: "Coros MCP"
+
+  - date: 2026-07-17
+    hora_inicio: "17:56:04"
+    tipo: "corrida"
+    nome: "Alicante Corrida"
+    distancia_km: 3.68
+    duracao: "20:24"
+    pace_medio: "5:33/km"
+    fc_media: 154
+    calorias: 233
+    fonte: "Coros MCP"
+
+  - date: 2026-07-21
+    hora_inicio: "18:52:37"
+    tipo: "corrida"
+    nome: "Parede Corrida"
+    distancia_km: 7.50
+    duracao: "48:55"
+    pace_medio: "6:31/km"
+    fc_media: 133
+    calorias: 447
+    fonte: "Coros MCP"
+
+  - date: 2026-07-23
+    hora_inicio: "18:58:20"
+    tipo: "corrida"
+    nome: "Paço de Arcos Corrida"
+    distancia_km: 6.01
+    duracao: "29:43"
+    pace_medio: "4:57/km"
+    fc_media: 161
+    calorias: 355
+    fonte: "Coros MCP"
+
+  - date: 2026-07-24
+    hora_inicio: "19:10:34"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 9.52
+    duracao: "59:39"
+    pace_medio: "6:16/km"
+    fc_media: 134
+    calorias: 526
+    fonte: "Coros MCP"
+
+  - date: 2026-07-26
+    hora_inicio: "19:08:32"
+    tipo: "corrida"
+    nome: "Long Run"
+    distancia_km: 19.24
+    duracao: "1:50:57"
+    pace_medio: "5:46/km"
+    fc_media: 144
+    calorias: 1120
+    fonte: "Coros MCP"
+
+  - date: 2026-07-29
+    hora_inicio: "18:38:24"
+    tipo: "corrida"
+    nome: "Base run"
+    distancia_km: 5.94
+    duracao: "59:34"
+    pace_medio: "10:01/km"
+    fc_media: 106
+    calorias: 310
+    fonte: "Coros MCP"
+
+  - date: 2026-07-30
+    hora_inicio: "19:30:43"
+    tipo: "corrida"
+    nome: "Threshold Intervals"
+    distancia_km: 21.12
+    duracao: "1:46:40"
+    pace_medio: "5:03/km"
+    fc_media: 162
+    calorias: 1275
+    fonte: "Coros MCP"
+    notas: "Melhor referência de ~21km nos dados (21.12km, 1:46:40, 5:03/km) — sessão de limiar, não teste oficial de prova, mas o esforço mais próximo de um PB de meia maratona disponível."
+
   - date: 2026-08-02
     hora_inicio: "19:06:00"
     tipo: "corrida"
