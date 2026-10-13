@@ -33,6 +33,16 @@ entre registos.
 - `data/objetivos.yaml` — objetivos ativos (ex: prova/evento com data,
   tempo-alvo), com histórico de revisões. Estado atual, não um log — mas
   cada objetivo guarda o histórico das suas revisões.
+- `data/modelo_treino.md` — especificação do modelo quantitativo de
+  treino (eficiência aeróbica, previsões cruzadas, sinais de alerta de
+  cadência, sensibilidade ao calor). Ler antes de qualquer análise de
+  performance ou prescrição de treino.
+- `scripts/analise_treino.py` — calcula a tendência de Efficiency Factor
+  (velocidade/FC) a partir de `logs/exercise.yaml`. Correr sempre que
+  houver corridas fáceis novas desde a última análise (`python3
+  scripts/analise_treino.py logs/exercise.yaml`).
+- `data/equipamento.yaml` — sapatilhas e quilómetros acumulados (fator
+  de lesão mensurável).
 
 ## Comportamento esperado
 
@@ -93,6 +103,19 @@ Isto significa, para qualquer sessão futura deste projeto:
    21km, trail), cada um com PB atual e objetivo, em vez de um único
    objetivo de maratona. Atualizar o PB sempre que houver um treino/prova
    que o bata.
+6. **Usar o modelo quantitativo, não só intuição.** Antes de prescrever
+   ou analisar performance: correr `scripts/analise_treino.py` para a
+   tendência de EF, consultar `queryTrainingLoadAssessment` +
+   `queryRecoveryStatus` da Coros MCP para carga/recuperação ao vivo, e
+   ler `data/modelo_treino.md` para o resto (previsões cruzadas Riegel,
+   sinal de alerta de cadência <78-80, sensibilidade ao calor). Nunca
+   usar só a previsão algorítmica da Coros (`queryFitnessAssessmentOverview`)
+   sem a comparar com estimativas de campo — é sistematicamente otimista.
+7. **Pedir dados leves ao longo do tempo, sem burocracia:** peso
+   (`logs/measurements.yaml`), o que comeu antes/durante treinos
+   importantes, sapatilhas/km acumulados (`data/equipamento.yaml`),
+   temperatura/condições quando relevante. Só perguntar quando vier a
+   propósito, não como checklist obrigatório.
 
 ## Privacidade
 

@@ -1,0 +1,11 @@
+# Equipamento — sapatilhas, principalmente. Desgaste é fator de lesão
+# mensurável (recomendação geral: substituir por volta dos 500-800km,
+# mas isto também vai sendo calibrado com os teus dados de lesão).
+sapatilhas: []
+# exemplo:
+# sapatilhas:
+#   - modelo: ""
+#     data_inicio: 2026-10-13
+#     km_acumulados: 0   # atualizar periodicamente, ou calcular a partir dos treinos associados
+#     ativa: true
+#     notas: ""

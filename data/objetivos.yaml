@@ -207,3 +207,32 @@ estado_coros_2026-10-13:
     nada sobre o estado da fascite plantar/Aquiles, que é uma questão de
     tecido local, não de fadiga sistémica. Não usar isto como luz verde
     para voltar a correr sem confirmar os dois sítios separadamente.
+
+# Valor de performance (ver data/modelo_treino.md para a metodologia completa).
+valor_performance_2026-10-13:
+  eficiencia_aerobica_ef:
+    tendencia: "+18.5% em 22.4 semanas (finais de abril a outubro 2026), 52 corridas fáceis"
+    interpretacao: "melhoria aeróbica real e sustentada"
+  previsoes_cruzadas_riegel:
+    fonte: "3 melhores esforços reais: 5k 22:03, 10k 50:01, 21k 1:46:40"
+    insight: >
+      O registo de 10k (50:01) é sistematicamente mais lento do que o
+      5k e o 21k preveem para ele via Riegel (previam 45:52-48:17); os
+      outros dois concordam bem entre si. Interpretação: o 10k
+      provavelmente não foi esforço máximo (era treino de limiar, não
+      teste a sério) — há margem real para um 10k bem mais rápido se
+      testado a esforço de prova.
+    tabela:
+      - a_partir_de: "5k (22:03)"
+        preve_10k: "45:52"
+        preve_21k: "1:41:13"
+        preve_marathon: "3:31:02"
+      - a_partir_de: "10k (50:01)"
+        preve_5k: "23:59"
+        preve_21k: "1:50:21"
+        preve_marathon: "3:50:05"
+      - a_partir_de: "21k (1:46:40)"
+        preve_5k: "23:09"
+        preve_10k: "48:17"
+        preve_marathon: "3:42:08"
+  recomendacao: "fazer um time-trial de 10km a esforço de prova a sério — é a distância com mais incerteza/margem nos dados atuais."
