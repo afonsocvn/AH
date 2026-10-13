@@ -1,7 +1,7 @@
 <title>Performance Lab</title>
 <style>
-/* layout: vertical scroll, header + live strip, KPI row, radar + scatter side by side,
-   EF trend, weekly volume + composition donut side by side, recent activity table */
+/* layout: tabbed app. top bar (identity+refresh) -> tab nav -> one visible panel at a time.
+   each panel reuses the card/kpi/chart components. */
 :root{
   --bg:#f9f9f7; --surface:#fcfcfb; --surface-2:#f3f2ee;
   --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781;
@@ -21,7 +21,6 @@
     --grid:#2c2c2a; --border:rgba(255,255,255,.10);
     --accent:#d95926; --accent-ink:#0d0d0d;
     --s-easy:#199e70; --s-quality:#d95926; --s-long:#3987e5; --s-race:#c98500; --s-trail:#d55181;
-    --good:#0ca30c; --warning:#fab219; --critical:#d03b3b;
   }
 }
 :root[data-theme="dark"]{
@@ -31,7 +30,6 @@
   --grid:#2c2c2a; --border:rgba(255,255,255,.10);
   --accent:#d95926; --accent-ink:#0d0d0d;
   --s-easy:#199e70; --s-quality:#d95926; --s-long:#3987e5; --s-race:#c98500; --s-trail:#d55181;
-  --good:#0ca30c; --warning:#fab219; --critical:#d03b3b;
 }
 *{box-sizing:border-box}
 body{
@@ -42,8 +40,7 @@ h1,h2,h3{font-family:var(--font-display); font-weight:700; margin:0; text-wrap:b
 .mono{font-family:var(--font-mono); font-variant-numeric:tabular-nums}
 a{color:var(--accent)}
 
-/* header */
-.topbar{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:22px}
+.topbar{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:18px}
 .brand{display:flex; flex-direction:column; gap:4px}
 .brand .eyebrow{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
 .brand h1{font-size:clamp(2rem,5vw,2.7rem); line-height:.95}
@@ -63,12 +60,24 @@ button.refresh{
   transition:transform .12s ease, opacity .12s ease;
 }
 button.refresh:hover{transform:translateY(-1px)}
-button.refresh:active{transform:translateY(0)}
 button.refresh:disabled{opacity:.6; cursor:default; transform:none}
 button.refresh svg{width:14px; height:14px}
 button.refresh svg.spin{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion: reduce){ button.refresh svg.spin{animation:none} }
+
+nav.tabs{
+  display:flex; gap:2px; border-bottom:1px solid var(--border); margin-bottom:28px;
+  overflow-x:auto; -ms-overflow-style:none; scrollbar-width:none;
+}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{
+  font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.02em;
+  background:none; border:none; color:var(--muted); padding:10px 14px; cursor:pointer;
+  border-bottom:2px solid transparent; white-space:nowrap; transition:color .12s ease;
+}
+nav.tabs button:hover{color:var(--ink-2)}
+nav.tabs button[aria-selected="true"]{color:var(--ink); border-bottom-color:var(--accent)}
 
 .livebanner{
   font-size:.82rem; color:var(--ink-2); padding:10px 14px; border:1px solid var(--border);
@@ -77,13 +86,13 @@ button.refresh svg.spin{animation:spin 1s linear infinite}
 .livebanner[data-show="1"]{display:flex}
 .livebanner.err{color:var(--critical); border-color:color-mix(in oklab, var(--critical) 40%, var(--border))}
 
-/* sections */
+.panel[hidden]{display:none}
 section{margin-block:36px}
+section:first-child{margin-top:0}
 .sectiontitle{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:14px}
 .sectiontitle h2{font-size:1.5rem}
 .sectiontitle .sub{font-size:.82rem; color:var(--muted); font-family:var(--font-mono)}
 
-/* KPI cards */
 .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px}
 .kpi{
   background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px 20px;
@@ -91,14 +100,13 @@ section{margin-block:36px}
 }
 .kpi .label{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
 .kpi .value{font-family:var(--font-display); font-size:1.9rem; font-weight:700}
-.kpi .value .unit{font-size:1rem; color:var(--ink-2); font-weight:500; margin-left:2px}
 .kpi .bar-track{height:5px; border-radius:3px; background:var(--grid); overflow:hidden}
 .kpi .bar-fill{height:100%; background:var(--accent); border-radius:3px}
 .kpi .foot{font-size:.74rem; color:var(--muted)}
 
-/* two-col grid */
 .grid2{display:grid; grid-template-columns:1.1fr 1fr; gap:20px}
-@media (max-width:760px){ .grid2{grid-template-columns:1fr} }
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+@media (max-width:760px){ .grid2{grid-template-columns:1fr} .grid3{grid-template-columns:1fr} }
 .card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; min-width:0}
 .card h3{font-size:1.05rem; margin-bottom:2px}
 .card .desc{font-size:.8rem; color:var(--muted); margin-bottom:14px}
@@ -106,7 +114,6 @@ section{margin-block:36px}
 svg.chart{width:100%; height:auto; overflow:visible}
 svg.chart text{font-family:var(--font-mono); fill:var(--ink-2)}
 svg.chart .gridline{stroke:var(--grid); stroke-width:1}
-svg.chart .axisline{stroke:var(--muted); stroke-width:1}
 svg.chart .tick{font-size:10px; fill:var(--muted)}
 
 .legend{display:flex; flex-wrap:wrap; gap:14px; margin-top:12px; font-size:.78rem; color:var(--ink-2)}
@@ -118,9 +125,7 @@ svg.chart .tick{font-size:10px; fill:var(--muted)}
   font-family:var(--font-mono); font-size:.72rem; padding:7px 10px; border-radius:8px; line-height:1.4;
   opacity:0; transition:opacity .08s ease; white-space:nowrap; z-index:5;
 }
-:root[data-theme="dark"] .tooltip, @media (prefers-color-scheme:dark){ .tooltip{} }
 
-/* table */
 table.activity{width:100%; border-collapse:collapse; font-size:.84rem}
 table.activity th{
   text-align:left; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
@@ -128,6 +133,9 @@ table.activity th{
 }
 table.activity td{padding-block:10px; border-bottom:1px solid var(--border); color:var(--ink-2)}
 table.activity td.num{font-family:var(--font-mono); font-variant-numeric:tabular-nums; color:var(--ink)}
+table.activity tbody tr{cursor:default}
+table.activity tbody tr.has-detail{cursor:pointer}
+table.activity tbody tr.has-detail:hover td{color:var(--ink)}
 table.activity tr:last-child td{border-bottom:none}
 .tag{font-family:var(--font-mono); font-size:.68rem; padding:2px 8px; border-radius:100px; display:inline-block}
 .tag.easy{background:color-mix(in oklab, var(--s-easy) 18%, transparent); color:var(--s-easy)}
@@ -135,7 +143,34 @@ table.activity tr:last-child td{border-bottom:none}
 .tag.long{background:color-mix(in oklab, var(--s-long) 18%, transparent); color:var(--s-long)}
 .tag.race{background:color-mix(in oklab, var(--s-race) 25%, transparent); color:var(--s-race)}
 .tag.trail{background:color-mix(in oklab, var(--s-trail) 18%, transparent); color:var(--s-trail)}
-.tablewrap{overflow-x:auto}
+.tablewrap{overflow-x:auto; max-height:520px; overflow-y:auto}
+.tablewrap table.activity thead{position:sticky; top:0; background:var(--surface)}
+
+.detailbox{
+  margin-top:14px; padding:16px; border-radius:10px; background:var(--surface-2); border:1px solid var(--border);
+  font-size:.84rem; color:var(--ink-2); line-height:1.6; display:none;
+}
+.detailbox[data-show="1"]{display:block}
+.detailbox h4{font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:0 0 8px}
+.detailbox p{margin:0 0 10px}
+.detailbox .dose{display:flex; gap:10px; padding-block:4px; font-family:var(--font-mono); font-size:.78rem}
+.detailbox .dose .km{color:var(--accent); min-width:56px}
+
+.emptystate{
+  text-align:center; padding:48px 24px; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:10px;
+}
+.emptystate .icon{font-size:2rem; opacity:.5}
+.emptystate h3{color:var(--ink-2); font-size:1.1rem}
+.emptystate p{font-size:.84rem; max-width:40ch; margin:0}
+
+.statrow{display:flex; justify-content:space-between; align-items:baseline; padding-block:10px; border-bottom:1px solid var(--border); font-size:.86rem}
+.statrow:last-child{border-bottom:none}
+.statrow .k{color:var(--muted)}
+.statrow .v{font-family:var(--font-mono); font-weight:600; color:var(--ink)}
+
+ul.ruleslist{margin:0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:10px}
+ul.ruleslist li{font-size:.86rem; color:var(--ink-2); padding-left:20px; position:relative; line-height:1.5}
+ul.ruleslist li::before{content:"→"; position:absolute; left:0; color:var(--accent)}
 
 footer{margin-top:52px; padding-top:20px; border-top:1px solid var(--border); font-size:.78rem; color:var(--muted); display:flex; flex-direction:column; gap:6px}
 </style>
@@ -154,57 +189,124 @@ footer{margin-top:52px; padding-top:20px; border-top:1px solid var(--border); fo
     </button>
   </div>
 </div>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="overview" aria-selected="true">Stats</button>
+  <button data-tab="proximos" aria-selected="false">Próximos treinos</button>
+  <button data-tab="treinos" aria-selected="false">Treinos</button>
+  <button data-tab="alimentacao" aria-selected="false">Alimentação</button>
+  <button data-tab="equipamento" aria-selected="false">Equipamento</button>
+  <button data-tab="sobre" aria-selected="false">Sobre mim</button>
+</nav>
+
 <div class="livebanner" id="livebanner"></div>
 
-<section>
-  <div class="sectiontitle"><h2>Onde estás agora</h2><span class="sub">intervalos, não valores exatos</span></div>
-  <div class="kpis" id="kpi-row"></div>
-</section>
+<!-- ===================== OVERVIEW ===================== -->
+<div class="panel" id="panel-overview">
+  <section>
+    <div class="sectiontitle"><h2>Onde estás agora</h2><span class="sub">intervalos, não valores exatos</span></div>
+    <div class="kpis" id="kpi-row"></div>
+  </section>
 
-<section class="grid2">
-  <div class="card">
-    <h3>Perfil de performance</h3>
-    <div class="desc">capacidade atual como % do potencial realista em 1-2 anos, por eixo</div>
-    <svg class="chart" id="chart-radar" viewBox="0 0 360 360"></svg>
-  </div>
-  <div class="card">
-    <h3>Pace vs frequência cardíaca</h3>
-    <div class="desc">todas as corridas registadas &middot; anel = prova</div>
-    <svg class="chart" id="chart-scatter" viewBox="0 0 440 340"></svg>
-    <div class="legend" id="legend-scatter"></div>
-  </div>
-</section>
+  <section class="grid2">
+    <div class="card">
+      <h3>Perfil de performance</h3>
+      <div class="desc">capacidade atual como % do potencial realista em 1-2 anos, por eixo</div>
+      <svg class="chart" id="chart-radar" viewBox="0 0 360 360"></svg>
+    </div>
+    <div class="card">
+      <h3>Pace vs frequência cardíaca</h3>
+      <div class="desc">todas as corridas registadas &middot; anel = prova</div>
+      <svg class="chart" id="chart-scatter" viewBox="0 0 440 340"></svg>
+      <div class="legend" id="legend-scatter"></div>
+    </div>
+  </section>
 
-<section>
-  <div class="card">
-    <h3>Eficiência aeróbica (EF)</h3>
-    <div class="desc">velocidade &divide; FC, corridas fáceis &middot; tendência: <span class="mono" id="ef-trend-label" style="color:var(--good)">—</span></div>
-    <svg class="chart" id="chart-ef" viewBox="0 0 900 260"></svg>
-  </div>
-</section>
+  <section>
+    <div class="card">
+      <h3>Eficiência aeróbica (EF)</h3>
+      <div class="desc">velocidade &divide; FC, corridas fáceis &middot; tendência: <span class="mono" id="ef-trend-label" style="color:var(--good)">—</span></div>
+      <svg class="chart" id="chart-ef" viewBox="0 0 900 260"></svg>
+    </div>
+  </section>
 
-<section class="grid2">
-  <div class="card">
-    <h3>Volume semanal</h3>
-    <div class="desc">últimas 16 semanas, km</div>
-    <svg class="chart" id="chart-weekly" viewBox="0 0 440 260"></svg>
-  </div>
-  <div class="card">
-    <h3>Composição do treino</h3>
-    <div class="desc">km acumulados por tipo, todo o histórico</div>
-    <svg class="chart" id="chart-donut" viewBox="0 0 360 300"></svg>
-  </div>
-</section>
+  <section class="grid2">
+    <div class="card">
+      <h3>Volume semanal</h3>
+      <div class="desc">últimas 16 semanas, km</div>
+      <svg class="chart" id="chart-weekly" viewBox="0 0 440 260"></svg>
+    </div>
+    <div class="card">
+      <h3>Composição do treino</h3>
+      <div class="desc">km acumulados por tipo, todo o histórico</div>
+      <svg class="chart" id="chart-donut" viewBox="0 0 360 300"></svg>
+    </div>
+  </section>
+</div>
 
-<section>
-  <div class="sectiontitle"><h2>Últimas sessões</h2><span class="sub" id="pending-note"></span></div>
-  <div class="card tablewrap">
-    <table class="activity" id="activity-table">
-      <thead><tr><th>Data</th><th>Sessão</th><th>Dist</th><th>Pace</th><th>FC</th><th>Tipo</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</section>
+<!-- ===================== PRÓXIMOS TREINOS ===================== -->
+<div class="panel" id="panel-proximos" hidden>
+  <section>
+    <div class="sectiontitle"><h2>Próximos treinos</h2><span class="sub" id="proximos-updated"></span></div>
+    <div class="card" id="proximos-card"></div>
+  </section>
+</div>
+
+<!-- ===================== TREINOS (full log + detail) ===================== -->
+<div class="panel" id="panel-treinos" hidden>
+  <section>
+    <div class="sectiontitle"><h2>Histórico de treinos</h2><span class="sub" id="treinos-count"></span></div>
+    <div class="card tablewrap">
+      <table class="activity" id="activity-table-full">
+        <thead><tr><th>Data</th><th>Sessão</th><th>Dist</th><th>Pace</th><th>FC</th><th>Tipo</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="detailbox" id="activity-detail"></div>
+  </section>
+</div>
+
+<!-- ===================== ALIMENTAÇÃO ===================== -->
+<div class="panel" id="panel-alimentacao" hidden>
+  <section>
+    <div class="sectiontitle"><h2>Alimentação e fueling</h2><span class="sub">o que se aprendeu, não um plano diário</span></div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Regras em teste</h3>
+        <div class="desc">validadas nos treinos longos de 2026</div>
+        <ul class="ruleslist" id="nutrition-rules"></ul>
+      </div>
+      <div class="card">
+        <h3>Fueling por treino longo</h3>
+        <div class="desc">doses reais, não teóricas</div>
+        <div id="nutrition-detail"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== EQUIPAMENTO ===================== -->
+<div class="panel" id="panel-equipamento" hidden>
+  <section>
+    <div class="sectiontitle"><h2>Equipamento</h2><span class="sub">desgaste é fator de lesão mensurável</span></div>
+    <div class="card" id="equip-card"></div>
+  </section>
+</div>
+
+<!-- ===================== SOBRE MIM ===================== -->
+<div class="panel" id="panel-sobre" hidden>
+  <section class="grid2">
+    <div class="card">
+      <h3>Perfil</h3>
+      <div id="profile-stats"></div>
+    </div>
+    <div class="card">
+      <h3>Peso</h3>
+      <div class="desc">histórico registado</div>
+      <div id="weight-stats"></div>
+    </div>
+  </section>
+</div>
 
 <footer>
   <span>Refresh puxa a Coros ao vivo (se ligada) e guarda o que for novo numa fila — o registo oficial em GitHub atualiza-se na próxima conversa.</span>
@@ -215,35 +317,53 @@ footer{margin-top:52px; padding-top:20px; border-top:1px solid var(--border); fo
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <script>
-// ============ embedded snapshot data (real, from logs/exercise.yaml + data/objetivos.yaml, 2026-10-13) ============
 const SNAPSHOT_DATE = "2026-10-13";
-const DATA = {"scatter": [{"date": "2026-01-21", "pace": 5.4, "hr": 105, "dist": 0.84, "cat": "easy", "nome": "Tignes Corrida"}, {"date": "2026-02-15", "pace": 6.75, "hr": 137, "dist": 0.95, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-02-26", "pace": 5.57, "hr": 138, "dist": 2.08, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-04-12", "pace": 5.87, "hr": 140, "dist": 3.49, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-04-15", "pace": 5.92, "hr": 146, "dist": 3.07, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-04-22", "pace": 5.33, "hr": 156, "dist": 5.0, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-04-27", "pace": 6.53, "hr": 148, "dist": 6.0, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-05-01", "pace": 6.67, "hr": 154, "dist": 5.0, "cat": "trail", "nome": "Colares Corrida de Trilha"}, {"date": "2026-05-03", "pace": 5.9, "hr": 152, "dist": 7.18, "cat": "easy", "nome": "Agualva-Cacém Corrida"}, {"date": "2026-05-05", "pace": 6.2, "hr": 153, "dist": 6.5, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-05-08", "pace": 6.28, "hr": 124, "dist": 0.437, "cat": "easy", "nome": "Paço de Arcos Corrida"}, {"date": "2026-05-08", "pace": 4.92, "hr": 167, "dist": 5.0, "cat": "easy", "nome": "Paço de Arcos Corrida"}, {"date": "2026-05-10", "pace": 5.45, "hr": 147, "dist": 1.85, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-05-13", "pace": 4.93, "hr": 159, "dist": 7.0, "cat": "easy", "nome": "Agualva-Cacém Corrida"}, {"date": "2026-05-15", "pace": 8.12, "hr": 143, "dist": 3.0, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-05-16", "pace": 6.55, "hr": 173, "dist": 10.01, "cat": "trail", "nome": "Alcabideche Corrida de Trilha"}, {"date": "2026-05-19", "pace": 8.85, "hr": 118, "dist": 3.05, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-05-24", "pace": 5.67, "hr": 182, "dist": 11.77, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-05-27", "pace": 6.52, "hr": 150, "dist": 7.29, "cat": "quality", "nome": "10km leves + 6 acelerações"}, {"date": "2026-05-29", "pace": 6.22, "hr": 146, "dist": 5.46, "cat": "easy", "nome": "Base run"}, {"date": "2026-05-31", "pace": 5.62, "hr": 167, "dist": 14.27, "cat": "easy", "nome": "Santa Luzia Corrida"}, {"date": "2026-06-02", "pace": 6.23, "hr": 154, "dist": 9.0, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-03", "pace": 6.43, "hr": 136, "dist": 5.75, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-04", "pace": 6.08, "hr": 154, "dist": 12.0, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-05", "pace": 4.97, "hr": 154, "dist": 7.35, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-07", "pace": 6.3, "hr": 150, "dist": 16.01, "cat": "easy", "nome": "Long Run"}, {"date": "2026-06-08", "pace": 6.63, "hr": 149, "dist": 4.28, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-10", "pace": 5.45, "hr": 149, "dist": 7.61, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-12", "pace": 5.78, "hr": 150, "dist": 7.86, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-14", "pace": 5.3, "hr": 159, "dist": 10.24, "cat": "quality", "nome": "Marathon Pace"}, {"date": "2026-06-15", "pace": 5.7, "hr": 147, "dist": 8.23, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-17", "pace": 6.6, "hr": 141, "dist": 6.59, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-20", "pace": 6.22, "hr": 146, "dist": 14.42, "cat": "easy", "nome": "Long Run"}, {"date": "2026-06-21", "pace": 6.02, "hr": 137, "dist": 7.0, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-22", "pace": 5.43, "hr": 148, "dist": 8.73, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-24", "pace": 6.1, "hr": 144, "dist": 4.72, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-25", "pace": 5.67, "hr": 156, "dist": 21.2, "cat": "quality", "nome": "Threshold Intervals"}, {"date": "2026-06-28", "pace": 6.08, "hr": 142, "dist": 16.48, "cat": "easy", "nome": "Long Run"}, {"date": "2026-06-30", "pace": 5.75, "hr": 145, "dist": 8.78, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-01", "pace": 5.73, "hr": 148, "dist": 7.0, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-02", "pace": 5.0, "hr": 146, "dist": 10.0, "cat": "quality", "nome": "Threshold Intervals"}, {"date": "2026-07-05", "pace": 5.8, "hr": 148, "dist": 14.55, "cat": "easy", "nome": "Long Run"}, {"date": "2026-07-07", "pace": 6.3, "hr": 138, "dist": 8.82, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-08", "pace": 6.15, "hr": 142, "dist": 3.01, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-07-10", "pace": 5.0, "hr": 152, "dist": 7.01, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-07-13", "pace": 7.98, "hr": 127, "dist": 8.82, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-15", "pace": 6.45, "hr": 133, "dist": 6.11, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-17", "pace": 5.55, "hr": 154, "dist": 3.68, "cat": "easy", "nome": "Alicante Corrida"}, {"date": "2026-07-21", "pace": 6.52, "hr": 133, "dist": 7.5, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-07-23", "pace": 4.95, "hr": 161, "dist": 6.01, "cat": "easy", "nome": "Paço de Arcos Corrida"}, {"date": "2026-07-24", "pace": 6.27, "hr": 134, "dist": 9.52, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-26", "pace": 5.77, "hr": 144, "dist": 19.24, "cat": "easy", "nome": "Long Run"}, {"date": "2026-07-29", "pace": 10.02, "hr": 106, "dist": 5.94, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-30", "pace": 5.05, "hr": 162, "dist": 21.12, "cat": "quality", "nome": "Threshold Intervals"}, {"date": "2026-08-02", "pace": 6.13, "hr": 137, "dist": 13.24, "cat": "easy", "nome": "Long Run"}, {"date": "2026-08-04", "pace": 5.43, "hr": 141, "dist": 4.83, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-08-05", "pace": 6.45, "hr": 127, "dist": 4.48, "cat": "easy", "nome": "Base run"}, {"date": "2026-08-08", "pace": 5.38, "hr": 151, "dist": 14.06, "cat": "quality", "nome": "Marathon Pace"}, {"date": "2026-08-10", "pace": 6.93, "hr": 118, "dist": 4.42, "cat": "easy", "nome": "Base run"}, {"date": "2026-08-12", "pace": 6.22, "hr": 142, "dist": 11.11, "cat": "quality", "nome": "Marathon Pace"}, {"date": "2026-08-14", "pace": 5.42, "hr": 144, "dist": 14.01, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-08-16", "pace": 6.52, "hr": 156, "dist": 11.01, "cat": "easy", "nome": "Sertã Corrida"}, {"date": "2026-08-18", "pace": 5.42, "hr": 147, "dist": 10.0, "cat": "easy", "nome": "Paço de Arcos Corrida"}, {"date": "2026-08-19", "pace": 4.4, "hr": 157, "dist": 5.01, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-08-21", "pace": 5.7, "hr": 138, "dist": 4.0, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-08-22", "pace": 5.75, "hr": 150, "dist": 31.28, "cat": "easy", "nome": "Cascais Corrida"}, {"date": "2026-08-25", "pace": 10.13, "hr": 111, "dist": 5.01, "cat": "easy", "nome": "Agualva-Cacém Corrida"}, {"date": "2026-08-26", "pace": 8.98, "hr": 127, "dist": 2.19, "cat": "easy", "nome": "Base run"}, {"date": "2026-08-28", "pace": 5.27, "hr": 146, "dist": 4.05, "cat": "easy", "nome": "Base run"}, {"date": "2026-08-28", "pace": 5.3, "hr": 153, "dist": 4.14, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-08-31", "pace": 5.58, "hr": 142, "dist": 11.22, "cat": "easy", "nome": "Base run"}, {"date": "2026-09-01", "pace": 4.68, "hr": 152, "dist": 6.19, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-09-04", "pace": 5.42, "hr": 150, "dist": 15.01, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-09-08", "pace": 5.77, "hr": 141, "dist": 11.35, "cat": "easy", "nome": "Base run"}, {"date": "2026-09-09", "pace": 5.63, "hr": 140, "dist": 5.26, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-09-10", "pace": 5.28, "hr": 151, "dist": 11.63, "cat": "quality", "nome": "Marathon Pace Intervals"}, {"date": "2026-09-12", "pace": 5.62, "hr": 158, "dist": 35.02, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-09-19", "pace": 5.77, "hr": 141, "dist": 6.59, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-09-20", "pace": 5.5, "hr": 148, "dist": 5.8, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-09-22", "pace": 5.63, "hr": 149, "dist": 8.56, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-09-23", "pace": 5.37, "hr": 149, "dist": 6.51, "cat": "easy", "nome": "Base run"}, {"date": "2026-09-26", "pace": 5.9, "hr": 137, "dist": 13.0, "cat": "easy", "nome": "Estoril Corrida"}, {"date": "2026-09-27", "pace": 6.0, "hr": 140, "dist": 6.26, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-09-29", "pace": 5.63, "hr": 143, "dist": 7.11, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-10-01", "pace": 6.77, "hr": 130, "dist": 6.0, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-10-08", "pace": 6.35, "hr": 141, "dist": 1.66, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-10-10", "pace": 6.08, "hr": 167, "dist": 27.24, "cat": "race", "nome": "Maratona de Carcavelos"}], "weekly": [{"week": "2026-W26", "km": 51.1}, {"week": "2026-W27", "km": 40.3}, {"week": "2026-W28", "km": 18.8}, {"week": "2026-W29", "km": 18.6}, {"week": "2026-W30", "km": 42.3}, {"week": "2026-W31", "km": 40.3}, {"week": "2026-W32", "km": 23.4}, {"week": "2026-W33", "km": 40.5}, {"week": "2026-W34", "km": 50.3}, {"week": "2026-W35", "km": 15.4}, {"week": "2026-W36", "km": 32.4}, {"week": "2026-W37", "km": 63.3}, {"week": "2026-W38", "km": 12.4}, {"week": "2026-W39", "km": 34.3}, {"week": "2026-W40", "km": 13.1}, {"week": "2026-W41", "km": 28.9}], "category_km": {"easy": 373.6, "quality": 106.7, "long": 228.5, "race": 27.2, "trail": 15.0}, "recent": [{"date": "2026-10-10", "nome": "Maratona de Carcavelos", "dist": 27.24, "pace": "06:05/km", "hr": 167, "tipo": "corrida", "resultado": "DNF (desistência) aos 27.24km"}, {"date": "2026-10-08", "nome": "Parede Corrida", "dist": 1.66, "pace": "6:21/km", "hr": 141, "tipo": "corrida", "resultado": null}, {"date": "2026-10-01", "nome": "Oeiras Corrida", "dist": 6.0, "pace": "6:46/km", "hr": 130, "tipo": "corrida", "resultado": null}, {"date": "2026-09-29", "nome": "Parede Corrida", "dist": 7.11, "pace": "5:38/km", "hr": 143, "tipo": "corrida", "resultado": null}, {"date": "2026-09-27", "nome": "Parede Corrida", "dist": 6.26, "pace": "6:00/km", "hr": 140, "tipo": "corrida", "resultado": null}, {"date": "2026-09-26", "nome": "Estoril Corrida", "dist": 13.0, "pace": "5:54/km", "hr": 137, "tipo": "corrida", "resultado": null}, {"date": "2026-09-23", "nome": "Base run", "dist": 6.51, "pace": "5:22/km", "hr": 149, "tipo": "corrida", "resultado": null}, {"date": "2026-09-22", "nome": "São Domingos de Rana Corrida", "dist": 8.56, "pace": "5:38/km", "hr": 149, "tipo": "corrida", "resultado": null}], "ef_trend": [{"date": "2026-04-27", "ef": 0.0621}, {"date": "2026-05-01", "ef": 0.0584}, {"date": "2026-05-03", "ef": 0.0669}, {"date": "2026-05-05", "ef": 0.0633}, {"date": "2026-05-29", "ef": 0.0661}, {"date": "2026-06-02", "ef": 0.0625}, {"date": "2026-06-03", "ef": 0.0686}, {"date": "2026-06-04", "ef": 0.064}, {"date": "2026-06-05", "ef": 0.0784}, {"date": "2026-06-07", "ef": 0.0635}, {"date": "2026-06-08", "ef": 0.0607}, {"date": "2026-06-10", "ef": 0.0739}, {"date": "2026-06-12", "ef": 0.0692}, {"date": "2026-06-15", "ef": 0.0716}, {"date": "2026-06-17", "ef": 0.0645}, {"date": "2026-06-20", "ef": 0.0661}, {"date": "2026-06-21", "ef": 0.0728}, {"date": "2026-06-22", "ef": 0.0746}, {"date": "2026-06-24", "ef": 0.0683}, {"date": "2026-06-28", "ef": 0.0695}, {"date": "2026-06-30", "ef": 0.072}, {"date": "2026-07-01", "ef": 0.0707}, {"date": "2026-07-05", "ef": 0.0699}, {"date": "2026-07-07", "ef": 0.069}, {"date": "2026-07-10", "ef": 0.0789}, {"date": "2026-07-13", "ef": 0.0592}, {"date": "2026-07-15", "ef": 0.0699}, {"date": "2026-07-21", "ef": 0.0692}, {"date": "2026-07-24", "ef": 0.0715}, {"date": "2026-07-26", "ef": 0.0723}, {"date": "2026-08-02", "ef": 0.0714}, {"date": "2026-08-04", "ef": 0.0783}, {"date": "2026-08-05", "ef": 0.0732}, {"date": "2026-08-14", "ef": 0.0769}, {"date": "2026-08-18", "ef": 0.0754}, {"date": "2026-08-21", "ef": 0.0763}, {"date": "2026-08-22", "ef": 0.0696}, {"date": "2026-08-28", "ef": 0.078}, {"date": "2026-08-28", "ef": 0.074}, {"date": "2026-08-31", "ef": 0.0757}, {"date": "2026-09-01", "ef": 0.0843}, {"date": "2026-09-04", "ef": 0.0738}, {"date": "2026-09-08", "ef": 0.0738}, {"date": "2026-09-09", "ef": 0.0761}, {"date": "2026-09-19", "ef": 0.0738}, {"date": "2026-09-20", "ef": 0.0737}, {"date": "2026-09-22", "ef": 0.0715}, {"date": "2026-09-23", "ef": 0.075}, {"date": "2026-09-26", "ef": 0.0742}, {"date": "2026-09-27", "ef": 0.0714}, {"date": "2026-09-29", "ef": 0.0745}, {"date": "2026-10-01", "ef": 0.0682}], "radar": {"5km": {"atual_sec": 1335.0, "potencial_sec": 1235.0, "score": 92.5}, "10km": {"atual_sec": 2835.0, "potencial_sec": 2640.0, "score": 93.1}, "21km": {"atual_sec": 6330.0, "potencial_sec": 5640.0, "score": 89.1}, "consistencia": {"score": 100.0, "semanas_com_treino": 16, "total_semanas": 16}}, "dias_para_cascais_aprox": 125};
+const DATA = {"scatter": [{"date": "2026-01-21", "pace": 5.4, "hr": 105, "dist": 0.84, "cat": "easy", "nome": "Tignes Corrida"}, {"date": "2026-02-15", "pace": 6.75, "hr": 137, "dist": 0.95, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-02-26", "pace": 5.57, "hr": 138, "dist": 2.08, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-04-12", "pace": 5.87, "hr": 140, "dist": 3.49, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-04-15", "pace": 5.92, "hr": 146, "dist": 3.07, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-04-22", "pace": 5.33, "hr": 156, "dist": 5.0, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-04-27", "pace": 6.53, "hr": 148, "dist": 6.0, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-05-01", "pace": 6.67, "hr": 154, "dist": 5.0, "cat": "trail", "nome": "Colares Corrida de Trilha"}, {"date": "2026-05-03", "pace": 5.9, "hr": 152, "dist": 7.18, "cat": "easy", "nome": "Agualva-Cacém Corrida"}, {"date": "2026-05-05", "pace": 6.2, "hr": 153, "dist": 6.5, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-05-08", "pace": 6.28, "hr": 124, "dist": 0.437, "cat": "easy", "nome": "Paço de Arcos Corrida"}, {"date": "2026-05-08", "pace": 4.92, "hr": 167, "dist": 5.0, "cat": "easy", "nome": "Paço de Arcos Corrida"}, {"date": "2026-05-10", "pace": 5.45, "hr": 147, "dist": 1.85, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-05-13", "pace": 4.93, "hr": 159, "dist": 7.0, "cat": "easy", "nome": "Agualva-Cacém Corrida"}, {"date": "2026-05-15", "pace": 8.12, "hr": 143, "dist": 3.0, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-05-16", "pace": 6.55, "hr": 173, "dist": 10.01, "cat": "trail", "nome": "Alcabideche Corrida de Trilha"}, {"date": "2026-05-19", "pace": 8.85, "hr": 118, "dist": 3.05, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-05-24", "pace": 5.67, "hr": 182, "dist": 11.77, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-05-27", "pace": 6.52, "hr": 150, "dist": 7.29, "cat": "quality", "nome": "10km leves + 6 acelerações"}, {"date": "2026-05-29", "pace": 6.22, "hr": 146, "dist": 5.46, "cat": "easy", "nome": "Base run"}, {"date": "2026-05-31", "pace": 5.62, "hr": 167, "dist": 14.27, "cat": "easy", "nome": "Santa Luzia Corrida"}, {"date": "2026-06-02", "pace": 6.23, "hr": 154, "dist": 9.0, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-03", "pace": 6.43, "hr": 136, "dist": 5.75, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-04", "pace": 6.08, "hr": 154, "dist": 12.0, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-05", "pace": 4.97, "hr": 154, "dist": 7.35, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-07", "pace": 6.3, "hr": 150, "dist": 16.01, "cat": "easy", "nome": "Long Run"}, {"date": "2026-06-08", "pace": 6.63, "hr": 149, "dist": 4.28, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-10", "pace": 5.45, "hr": 149, "dist": 7.61, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-12", "pace": 5.78, "hr": 150, "dist": 7.86, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-14", "pace": 5.3, "hr": 159, "dist": 10.24, "cat": "quality", "nome": "Marathon Pace"}, {"date": "2026-06-15", "pace": 5.7, "hr": 147, "dist": 8.23, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-17", "pace": 6.6, "hr": 141, "dist": 6.59, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-20", "pace": 6.22, "hr": 146, "dist": 14.42, "cat": "easy", "nome": "Long Run"}, {"date": "2026-06-21", "pace": 6.02, "hr": 137, "dist": 7.0, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-22", "pace": 5.43, "hr": 148, "dist": 8.73, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-24", "pace": 6.1, "hr": 144, "dist": 4.72, "cat": "easy", "nome": "Base run"}, {"date": "2026-06-25", "pace": 5.67, "hr": 156, "dist": 21.2, "cat": "quality", "nome": "Threshold Intervals"}, {"date": "2026-06-28", "pace": 6.08, "hr": 142, "dist": 16.48, "cat": "easy", "nome": "Long Run"}, {"date": "2026-06-30", "pace": 5.75, "hr": 145, "dist": 8.78, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-01", "pace": 5.73, "hr": 148, "dist": 7.0, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-02", "pace": 5.0, "hr": 146, "dist": 10.0, "cat": "quality", "nome": "Threshold Intervals"}, {"date": "2026-07-05", "pace": 5.8, "hr": 148, "dist": 14.55, "cat": "easy", "nome": "Long Run"}, {"date": "2026-07-07", "pace": 6.3, "hr": 138, "dist": 8.82, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-08", "pace": 6.15, "hr": 142, "dist": 3.01, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-07-10", "pace": 5.0, "hr": 152, "dist": 7.01, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-07-13", "pace": 7.98, "hr": 127, "dist": 8.82, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-15", "pace": 6.45, "hr": 133, "dist": 6.11, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-17", "pace": 5.55, "hr": 154, "dist": 3.68, "cat": "easy", "nome": "Alicante Corrida"}, {"date": "2026-07-21", "pace": 6.52, "hr": 133, "dist": 7.5, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-07-23", "pace": 4.95, "hr": 161, "dist": 6.01, "cat": "easy", "nome": "Paço de Arcos Corrida"}, {"date": "2026-07-24", "pace": 6.27, "hr": 134, "dist": 9.52, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-26", "pace": 5.77, "hr": 144, "dist": 19.24, "cat": "easy", "nome": "Long Run"}, {"date": "2026-07-29", "pace": 10.02, "hr": 106, "dist": 5.94, "cat": "easy", "nome": "Base run"}, {"date": "2026-07-30", "pace": 5.05, "hr": 162, "dist": 21.12, "cat": "quality", "nome": "Threshold Intervals"}, {"date": "2026-08-02", "pace": 6.13, "hr": 137, "dist": 13.24, "cat": "easy", "nome": "Long Run"}, {"date": "2026-08-04", "pace": 5.43, "hr": 141, "dist": 4.83, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-08-05", "pace": 6.45, "hr": 127, "dist": 4.48, "cat": "easy", "nome": "Base run"}, {"date": "2026-08-08", "pace": 5.38, "hr": 151, "dist": 14.06, "cat": "quality", "nome": "Marathon Pace"}, {"date": "2026-08-10", "pace": 6.93, "hr": 118, "dist": 4.42, "cat": "easy", "nome": "Base run"}, {"date": "2026-08-12", "pace": 6.22, "hr": 142, "dist": 11.11, "cat": "quality", "nome": "Marathon Pace"}, {"date": "2026-08-14", "pace": 5.42, "hr": 144, "dist": 14.01, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-08-16", "pace": 6.52, "hr": 156, "dist": 11.01, "cat": "easy", "nome": "Sertã Corrida"}, {"date": "2026-08-18", "pace": 5.42, "hr": 147, "dist": 10.0, "cat": "easy", "nome": "Paço de Arcos Corrida"}, {"date": "2026-08-19", "pace": 4.4, "hr": 157, "dist": 5.01, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-08-21", "pace": 5.7, "hr": 138, "dist": 4.0, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-08-22", "pace": 5.75, "hr": 150, "dist": 31.28, "cat": "easy", "nome": "Cascais Corrida"}, {"date": "2026-08-25", "pace": 10.13, "hr": 111, "dist": 5.01, "cat": "easy", "nome": "Agualva-Cacém Corrida"}, {"date": "2026-08-26", "pace": 8.98, "hr": 127, "dist": 2.19, "cat": "easy", "nome": "Base run"}, {"date": "2026-08-28", "pace": 5.27, "hr": 146, "dist": 4.05, "cat": "easy", "nome": "Base run"}, {"date": "2026-08-28", "pace": 5.3, "hr": 153, "dist": 4.14, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-08-31", "pace": 5.58, "hr": 142, "dist": 11.22, "cat": "easy", "nome": "Base run"}, {"date": "2026-09-01", "pace": 4.68, "hr": 152, "dist": 6.19, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-09-04", "pace": 5.42, "hr": 150, "dist": 15.01, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-09-08", "pace": 5.77, "hr": 141, "dist": 11.35, "cat": "easy", "nome": "Base run"}, {"date": "2026-09-09", "pace": 5.63, "hr": 140, "dist": 5.26, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-09-10", "pace": 5.28, "hr": 151, "dist": 11.63, "cat": "quality", "nome": "Marathon Pace Intervals"}, {"date": "2026-09-12", "pace": 5.62, "hr": 158, "dist": 35.02, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-09-19", "pace": 5.77, "hr": 141, "dist": 6.59, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-09-20", "pace": 5.5, "hr": 148, "dist": 5.8, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-09-22", "pace": 5.63, "hr": 149, "dist": 8.56, "cat": "easy", "nome": "São Domingos de Rana Corrida"}, {"date": "2026-09-23", "pace": 5.37, "hr": 149, "dist": 6.51, "cat": "easy", "nome": "Base run"}, {"date": "2026-09-26", "pace": 5.9, "hr": 137, "dist": 13.0, "cat": "easy", "nome": "Estoril Corrida"}, {"date": "2026-09-27", "pace": 6.0, "hr": 140, "dist": 6.26, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-09-29", "pace": 5.63, "hr": 143, "dist": 7.11, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-10-01", "pace": 6.77, "hr": 130, "dist": 6.0, "cat": "easy", "nome": "Oeiras Corrida"}, {"date": "2026-10-08", "pace": 6.35, "hr": 141, "dist": 1.66, "cat": "easy", "nome": "Parede Corrida"}, {"date": "2026-10-10", "pace": 6.08, "hr": 167, "dist": 27.24, "cat": "race", "nome": "Maratona de Carcavelos"}], "weekly": [{"week": "2026-W26", "km": 51.1}, {"week": "2026-W27", "km": 40.3}, {"week": "2026-W28", "km": 18.8}, {"week": "2026-W29", "km": 18.6}, {"week": "2026-W30", "km": 42.3}, {"week": "2026-W31", "km": 40.3}, {"week": "2026-W32", "km": 23.4}, {"week": "2026-W33", "km": 40.5}, {"week": "2026-W34", "km": 50.3}, {"week": "2026-W35", "km": 15.4}, {"week": "2026-W36", "km": 32.4}, {"week": "2026-W37", "km": 63.3}, {"week": "2026-W38", "km": 12.4}, {"week": "2026-W39", "km": 34.3}, {"week": "2026-W40", "km": 13.1}, {"week": "2026-W41", "km": 28.9}], "category_km": {"easy": 373.6, "quality": 106.7, "long": 228.5, "race": 27.2, "trail": 15.0}, "recent": [{"date": "2026-10-10", "nome": "Maratona de Carcavelos", "dist": 27.24, "pace": "06:05/km", "hr": 167, "tipo": "corrida", "resultado": "DNF (desistência) aos 27.24km"}, {"date": "2026-10-08", "nome": "Parede Corrida", "dist": 1.66, "pace": "6:21/km", "hr": 141, "tipo": "corrida", "resultado": null}, {"date": "2026-10-01", "nome": "Oeiras Corrida", "dist": 6.0, "pace": "6:46/km", "hr": 130, "tipo": "corrida", "resultado": null}, {"date": "2026-09-29", "nome": "Parede Corrida", "dist": 7.11, "pace": "5:38/km", "hr": 143, "tipo": "corrida", "resultado": null}, {"date": "2026-09-27", "nome": "Parede Corrida", "dist": 6.26, "pace": "6:00/km", "hr": 140, "tipo": "corrida", "resultado": null}, {"date": "2026-09-26", "nome": "Estoril Corrida", "dist": 13.0, "pace": "5:54/km", "hr": 137, "tipo": "corrida", "resultado": null}, {"date": "2026-09-23", "nome": "Base run", "dist": 6.51, "pace": "5:22/km", "hr": 149, "tipo": "corrida", "resultado": null}, {"date": "2026-09-22", "nome": "São Domingos de Rana Corrida", "dist": 8.56, "pace": "5:38/km", "hr": 149, "tipo": "corrida", "resultado": null}], "ef_trend": [{"date": "2026-04-27", "ef": 0.0621}, {"date": "2026-05-01", "ef": 0.0584}, {"date": "2026-05-03", "ef": 0.0669}, {"date": "2026-05-05", "ef": 0.0633}, {"date": "2026-05-29", "ef": 0.0661}, {"date": "2026-06-02", "ef": 0.0625}, {"date": "2026-06-03", "ef": 0.0686}, {"date": "2026-06-04", "ef": 0.064}, {"date": "2026-06-05", "ef": 0.0784}, {"date": "2026-06-07", "ef": 0.0635}, {"date": "2026-06-08", "ef": 0.0607}, {"date": "2026-06-10", "ef": 0.0739}, {"date": "2026-06-12", "ef": 0.0692}, {"date": "2026-06-15", "ef": 0.0716}, {"date": "2026-06-17", "ef": 0.0645}, {"date": "2026-06-20", "ef": 0.0661}, {"date": "2026-06-21", "ef": 0.0728}, {"date": "2026-06-22", "ef": 0.0746}, {"date": "2026-06-24", "ef": 0.0683}, {"date": "2026-06-28", "ef": 0.0695}, {"date": "2026-06-30", "ef": 0.072}, {"date": "2026-07-01", "ef": 0.0707}, {"date": "2026-07-05", "ef": 0.0699}, {"date": "2026-07-07", "ef": 0.069}, {"date": "2026-07-10", "ef": 0.0789}, {"date": "2026-07-13", "ef": 0.0592}, {"date": "2026-07-15", "ef": 0.0699}, {"date": "2026-07-21", "ef": 0.0692}, {"date": "2026-07-24", "ef": 0.0715}, {"date": "2026-07-26", "ef": 0.0723}, {"date": "2026-08-02", "ef": 0.0714}, {"date": "2026-08-04", "ef": 0.0783}, {"date": "2026-08-05", "ef": 0.0732}, {"date": "2026-08-14", "ef": 0.0769}, {"date": "2026-08-18", "ef": 0.0754}, {"date": "2026-08-21", "ef": 0.0763}, {"date": "2026-08-22", "ef": 0.0696}, {"date": "2026-08-28", "ef": 0.078}, {"date": "2026-08-28", "ef": 0.074}, {"date": "2026-08-31", "ef": 0.0757}, {"date": "2026-09-01", "ef": 0.0843}, {"date": "2026-09-04", "ef": 0.0738}, {"date": "2026-09-08", "ef": 0.0738}, {"date": "2026-09-09", "ef": 0.0761}, {"date": "2026-09-19", "ef": 0.0738}, {"date": "2026-09-20", "ef": 0.0737}, {"date": "2026-09-22", "ef": 0.0715}, {"date": "2026-09-23", "ef": 0.075}, {"date": "2026-09-26", "ef": 0.0742}, {"date": "2026-09-27", "ef": 0.0714}, {"date": "2026-09-29", "ef": 0.0745}, {"date": "2026-10-01", "ef": 0.0682}], "radar": {"5km": {"atual_sec": 1335.0, "potencial_sec": 1235.0, "score": 92.5}, "10km": {"atual_sec": 2835.0, "potencial_sec": 2640.0, "score": 93.1}, "21km": {"atual_sec": 6330.0, "potencial_sec": 5640.0, "score": 89.1}, "consistencia": {"score": 100.0, "semanas_com_treino": 16, "total_semanas": 16}}, "dias_para_cascais_aprox": 125, "profile": {"idade": 28, "altura_cm": 169.0, "data_nascimento": "1998-05-10", "sexo": "masculino", "nome": "afonsocvn"}, "weight_history": [{"date": "2026-09-03", "kg": 52}], "equipamento": [], "nutrition_plan_rules": ["Água (~150-200ml) sempre a acompanhar cada gel", "Alternar sabores/marcas para evitar 'flavor fatigue'", "Preferir géis dual-source (glucose+frutose), não só maltodextrina", "Incluir sódio/eletrólitos, não só água e hidratos", "Eletrólitos pré-treino de manhã, ~1.5-2h antes de correr — não na noite anterior (perde-se grande parte do efeito durante a noite)", "Subir a dose de forma gradual entre treinos (ex: 40→50→60g/h), não de repente", "Nunca estrear produto novo no dia da prova"], "full_activities": [{"date": "2026-01-21", "nome": "Tignes Corrida", "dist": 0.84, "duracao": "4:33", "pace": "5:24/km", "hr": 105, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-02-15", "nome": "Oeiras Corrida", "dist": 0.95, "duracao": "6:24", "pace": "6:45/km", "hr": 137, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-02-26", "nome": "Parede Corrida", "dist": 2.08, "duracao": "11:36", "pace": "5:34/km", "hr": 138, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-04-12", "nome": "Parede Corrida", "dist": 3.49, "duracao": "20:31", "pace": "5:52/km", "hr": 140, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-04-15", "nome": "São Domingos de Rana Corrida", "dist": 3.07, "duracao": "18:11", "pace": "5:55/km", "hr": 146, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-04-22", "nome": "São Domingos de Rana Corrida", "dist": 5.0, "duracao": "26:42", "pace": "5:20/km", "hr": 156, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-04-27", "nome": "Parede Corrida", "dist": 6.0, "duracao": "39:13", "pace": "6:32/km", "hr": 148, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-01", "nome": "Colares Corrida de Trilha", "dist": 5.0, "duracao": "33:21", "pace": "6:40/km", "hr": 154, "cat": "trail", "resultado": null, "has_detail": false}, {"date": "2026-05-03", "nome": "Agualva-Cacém Corrida", "dist": 7.18, "duracao": "42:20", "pace": "5:54/km", "hr": 152, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-05", "nome": "Parede Corrida", "dist": 6.5, "duracao": "40:19", "pace": "6:12/km", "hr": 153, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-08", "nome": "Paço de Arcos Corrida", "dist": 0.437, "duracao": "2:45", "pace": "6:17/km", "hr": 124, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-08", "nome": "Paço de Arcos Corrida", "dist": 5.0, "duracao": "24:37", "pace": "4:55/km", "hr": 167, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-10", "nome": "São Domingos de Rana Corrida", "dist": 1.85, "duracao": "10:04", "pace": "5:27/km", "hr": 147, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-13", "nome": "Agualva-Cacém Corrida", "dist": 7.0, "duracao": "34:32", "pace": "4:56/km", "hr": 159, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-15", "nome": "São Domingos de Rana Corrida", "dist": 3.0, "duracao": "24:22", "pace": "8:07/km", "hr": 143, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-16", "nome": "Alcabideche Corrida de Trilha", "dist": 10.01, "duracao": "1:05:35", "pace": "6:33/km", "hr": 173, "cat": "trail", "resultado": null, "has_detail": false}, {"date": "2026-05-19", "nome": "Parede Corrida", "dist": 3.05, "duracao": "26:59", "pace": "8:51/km", "hr": 118, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-24", "nome": "Oeiras Corrida", "dist": 11.77, "duracao": "1:06:42", "pace": "5:40/km", "hr": 182, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-27", "nome": "10km leves + 6 acelerações", "dist": 7.29, "duracao": "47:27", "pace": "6:31/km", "hr": 150, "cat": "quality", "resultado": null, "has_detail": false}, {"date": "2026-05-29", "nome": "Base run", "dist": 5.46, "duracao": "33:57", "pace": "6:13/km", "hr": 146, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-05-31", "nome": "Santa Luzia Corrida", "dist": 14.27, "duracao": "1:20:03", "pace": "5:37/km", "hr": 167, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-06-02", "nome": "Base run", "dist": 9.0, "duracao": "56:05", "pace": "6:14/km", "hr": 154, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-03", "nome": "Base run", "dist": 5.75, "duracao": "36:58", "pace": "6:26/km", "hr": 136, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-04", "nome": "Base run", "dist": 12.0, "duracao": "1:12:56", "pace": "6:05/km", "hr": 154, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-06-05", "nome": "Base run", "dist": 7.35, "duracao": "36:32", "pace": "4:58/km", "hr": 154, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-07", "nome": "Long Run", "dist": 16.01, "duracao": "1:40:51", "pace": "6:18/km", "hr": 150, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-06-08", "nome": "Base run", "dist": 4.28, "duracao": "28:24", "pace": "6:38/km", "hr": 149, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-10", "nome": "Base run", "dist": 7.61, "duracao": "41:30", "pace": "5:27/km", "hr": 149, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-12", "nome": "Base run", "dist": 7.86, "duracao": "45:30", "pace": "5:47/km", "hr": 150, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-14", "nome": "Marathon Pace", "dist": 10.24, "duracao": "54:15", "pace": "5:18/km", "hr": 159, "cat": "quality", "resultado": null, "has_detail": false}, {"date": "2026-06-15", "nome": "Base run", "dist": 8.23, "duracao": "46:53", "pace": "5:42/km", "hr": 147, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-17", "nome": "Base run", "dist": 6.59, "duracao": "43:32", "pace": "6:36/km", "hr": 141, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-20", "nome": "Long Run", "dist": 14.42, "duracao": "1:29:38", "pace": "6:13/km", "hr": 146, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-06-21", "nome": "Base run", "dist": 7.0, "duracao": "42:06", "pace": "6:01/km", "hr": 137, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-22", "nome": "Base run", "dist": 8.73, "duracao": "47:25", "pace": "5:26/km", "hr": 148, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-24", "nome": "Base run", "dist": 4.72, "duracao": "28:47", "pace": "6:06/km", "hr": 144, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-06-25", "nome": "Threshold Intervals", "dist": 21.2, "duracao": "2:00:16", "pace": "5:40/km", "hr": 156, "cat": "quality", "resultado": null, "has_detail": false}, {"date": "2026-06-28", "nome": "Long Run", "dist": 16.48, "duracao": "1:40:12", "pace": "6:05/km", "hr": 142, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-06-30", "nome": "Base run", "dist": 8.78, "duracao": "50:32", "pace": "5:45/km", "hr": 145, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-01", "nome": "Base run", "dist": 7.0, "duracao": "40:09", "pace": "5:44/km", "hr": 148, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-02", "nome": "Threshold Intervals", "dist": 10.0, "duracao": "50:01", "pace": "5:00/km", "hr": 146, "cat": "quality", "resultado": null, "has_detail": false}, {"date": "2026-07-05", "nome": "Long Run", "dist": 14.55, "duracao": "1:24:27", "pace": "5:48/km", "hr": 148, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-07-07", "nome": "Base run", "dist": 8.82, "duracao": "55:34", "pace": "6:18/km", "hr": 138, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-08", "nome": "Parede Corrida", "dist": 3.01, "duracao": "18:30", "pace": "6:09/km", "hr": 142, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-10", "nome": "São Domingos de Rana Corrida", "dist": 7.01, "duracao": "35:00", "pace": "5:00/km", "hr": 152, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-13", "nome": "Base run", "dist": 8.82, "duracao": "1:10:22", "pace": "7:59/km", "hr": 127, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-15", "nome": "Base run", "dist": 6.11, "duracao": "39:25", "pace": "6:27/km", "hr": 133, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-17", "nome": "Alicante Corrida", "dist": 3.68, "duracao": "20:24", "pace": "5:33/km", "hr": 154, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-21", "nome": "Parede Corrida", "dist": 7.5, "duracao": "48:55", "pace": "6:31/km", "hr": 133, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-23", "nome": "Paço de Arcos Corrida", "dist": 6.01, "duracao": "29:43", "pace": "4:57/km", "hr": 161, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-24", "nome": "Base run", "dist": 9.52, "duracao": "59:39", "pace": "6:16/km", "hr": 134, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-26", "nome": "Long Run", "dist": 19.24, "duracao": "1:50:57", "pace": "5:46/km", "hr": 144, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-07-29", "nome": "Base run", "dist": 5.94, "duracao": "59:34", "pace": "10:01/km", "hr": 106, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-07-30", "nome": "Threshold Intervals", "dist": 21.12, "duracao": "1:46:40", "pace": "5:03/km", "hr": 162, "cat": "quality", "resultado": null, "has_detail": false}, {"date": "2026-08-02", "nome": "Long Run", "dist": 13.24, "duracao": "1:21:18", "pace": "6:08/km", "hr": 137, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-08-04", "nome": "São Domingos de Rana Corrida", "dist": 4.83, "duracao": "26:13", "pace": "5:26/km", "hr": 141, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-05", "nome": "Base run", "dist": 4.48, "duracao": "28:53", "pace": "6:27/km", "hr": 127, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-08", "nome": "Marathon Pace", "dist": 14.06, "duracao": "1:15:39", "pace": "5:23/km", "hr": 151, "cat": "quality", "resultado": null, "has_detail": false}, {"date": "2026-08-10", "nome": "Base run", "dist": 4.42, "duracao": "30:36", "pace": "6:56/km", "hr": 118, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-12", "nome": "Marathon Pace", "dist": 11.11, "duracao": "1:09:08", "pace": "6:13/km", "hr": 142, "cat": "quality", "resultado": null, "has_detail": false}, {"date": "2026-08-14", "nome": "Parede Corrida", "dist": 14.01, "duracao": "1:15:51", "pace": "5:25/km", "hr": 144, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-08-16", "nome": "Sertã Corrida", "dist": 11.01, "duracao": "1:11:40", "pace": "6:31/km", "hr": 156, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-18", "nome": "Paço de Arcos Corrida", "dist": 10.0, "duracao": "54:10", "pace": "5:25/km", "hr": 147, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-19", "nome": "Parede Corrida", "dist": 5.01, "duracao": "22:03", "pace": "4:24/km", "hr": 157, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-21", "nome": "Parede Corrida", "dist": 4.0, "duracao": "22:49", "pace": "5:42/km", "hr": 138, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-22", "nome": "Cascais Corrida", "dist": 31.28, "duracao": "03:07:08", "pace": "05:45/km", "hr": 150, "cat": "long", "resultado": null, "has_detail": true}, {"date": "2026-08-25", "nome": "Agualva-Cacém Corrida", "dist": 5.01, "duracao": "50:41", "pace": "10:08/km", "hr": 111, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-26", "nome": "Base run", "dist": 2.19, "duracao": "19:40", "pace": "8:59/km", "hr": 127, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-28", "nome": "Base run", "dist": 4.05, "duracao": "21:21", "pace": "5:16/km", "hr": 146, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-28", "nome": "Oeiras Corrida", "dist": 4.14, "duracao": "21:56", "pace": "5:18/km", "hr": 153, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-08-31", "nome": "Base run", "dist": 11.22, "duracao": "1:02:35", "pace": "5:35/km", "hr": 142, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-09-01", "nome": "Parede Corrida", "dist": 6.19, "duracao": "28:58", "pace": "4:41/km", "hr": 152, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-09-04", "nome": "Oeiras Corrida", "dist": 15.01, "duracao": "1:21:15", "pace": "5:25/km", "hr": 150, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-09-08", "nome": "Base run", "dist": 11.35, "duracao": "1:05:25", "pace": "5:46/km", "hr": 141, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-09-09", "nome": "Parede Corrida", "dist": 5.26, "duracao": "29:36", "pace": "5:38/km", "hr": 140, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-09-10", "nome": "Marathon Pace Intervals", "dist": 11.63, "duracao": "1:01:27", "pace": "5:17/km", "hr": 151, "cat": "quality", "resultado": null, "has_detail": false}, {"date": "2026-09-12", "nome": "Parede Corrida", "dist": 35.02, "duracao": "03:39:01", "pace": "05:37/km", "hr": 158, "cat": "long", "resultado": null, "has_detail": true}, {"date": "2026-09-19", "nome": "Oeiras Corrida", "dist": 6.59, "duracao": "37:59", "pace": "5:46/km", "hr": 141, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-09-20", "nome": "Parede Corrida", "dist": 5.8, "duracao": "31:56", "pace": "5:30/km", "hr": 148, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-09-22", "nome": "São Domingos de Rana Corrida", "dist": 8.56, "duracao": "48:16", "pace": "5:38/km", "hr": 149, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-09-23", "nome": "Base run", "dist": 6.51, "duracao": "34:59", "pace": "5:22/km", "hr": 149, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-09-26", "nome": "Estoril Corrida", "dist": 13.0, "duracao": "1:16:44", "pace": "5:54/km", "hr": 137, "cat": "long", "resultado": null, "has_detail": false}, {"date": "2026-09-27", "nome": "Parede Corrida", "dist": 6.26, "duracao": "37:31", "pace": "6:00/km", "hr": 140, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-09-29", "nome": "Parede Corrida", "dist": 7.11, "duracao": "40:01", "pace": "5:38/km", "hr": 143, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-10-01", "nome": "Oeiras Corrida", "dist": 6.0, "duracao": "40:36", "pace": "6:46/km", "hr": 130, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-10-08", "nome": "Parede Corrida", "dist": 1.66, "duracao": "10:34", "pace": "6:21/km", "hr": 141, "cat": "easy", "resultado": null, "has_detail": false}, {"date": "2026-10-10", "nome": "Maratona de Carcavelos", "dist": 27.24, "duracao": "02:45:48", "pace": "06:05/km", "hr": 167, "cat": "race", "resultado": "DNF (desistência) aos 27.24km", "has_detail": true}], "detailed_activities": [{"date": "2026-08-22", "nome": "Cascais Corrida", "nutricao_doses": [{"km": 7, "tempo": "~00:39:00", "item": "gel"}, {"km": 14, "tempo": "~01:23:00", "item": "banana", "nota": "provável causa da dor de barriga no km16-18 (12-25min depois)"}, {"km": "16-17", "tempo": "~01:35-01:42", "item": "gel"}, {"km": 24, "tempo": "~02:24:00", "item": "gel com cafeína"}], "nutricao_analise": "Total ~90-100g hidratos em 3h07 (~30g/h) — abaixo do recomendado (60-90g/h) para esforço >2.5-3h. Gap de 43min sem hidratos entre o km24 e a meta coincide com a zona de maior decoupling (FC 158-173, pace instável). Eletrólitos já presentes desde o início (pelo menos na primeira água), por isso o enjoo do final não parece ser défice de sódio logo de início — mais provável ser efeito acumulado do calor + géis sem água suficiente. A rever: subir dose, tomas mais frequentes (20-25min), tirar fruta inteira do plano, garantir fuel no troço final.\n", "nutricao_hidratacao": "a primeira água (início do treino) já tinha eletrólitos", "notas": "Previsão de 23-24°C mas sensação de calor seco muito forte e sem vento nos primeiros ~13km — mal-estar de calor no início. Melhorou muito depois de se refrescar; a partir daí molhou sempre o chapéu nos abastecimentos. Dor de barriga por volta do km 16-18 causada por uma banana (a evitar/reduzir em treinos e na prova). As 3 paragens longas (splits 14, 22, 27) foram para ir buscar água ao carro — não representativas do que fará em prova. Enjoos sentidos no final, provavelmente calor acumulado + géis sem água suficiente, mais do que intolerância aos géis em si. Primeira vez a correr mais de 20km — apareceram dores no tendão de Aquiles e no joelho nos dias seguintes (ver logs/lesoes.yaml). Corredor já habituado a treinar com bastante calor e que aguenta bem até ~20km sem quebrar — a quebra tardia deste treino aponta para limitador de duração/glicogénio, não intolerância ao calor.\n"}, {"date": "2026-09-12", "nome": "Parede Corrida", "resumo": "36 splits de 1km (último parcial, 16m). Pace estável entre 5:15 e 5:95/km ao longo de quase todo o treino, sem quebras de forma como no Cascais. FC sobe de forma constante e acentuada: ~125bpm no km1 até 174-181bpm nos últimos km, com o pace a manter-se — decoupling claro, mas desta vez sem colapso de pace/cadência (cadência manteve-se 81-86 do início ao fim, nunca caiu para os 77-80 que se viu no Cascais). Potência também sobe gradualmente de ~150W para ~165-176W ao longo do treino, coerente com a subida de FC. Soma dos primeiros 21 splits (~21km) = ~1:58:34 — referência de ritmo de meia maratona, mas NÃO é um esforço máximo: foi o troço inicial de um treino de 35km a ritmo controlado, não uma tentativa a sério de PB.\n", "fueling_resultado": "géis correram bem, sem enjoos desta vez — plano ajustado (hydrogel, água a acompanhar, sódio a meio, cafeína espaçada) parece ter resolvido o problema do Cascais", "notas": "Estava um pouco constipado e fazia calor (32°C média, até 35°C), mas fisicamente correu bastante bem. Não bateu no \"muro\" como no Cascais — só começou a sentir a fadiga por volta do km35 (pode ser mais mental, por saber que estava a acabar, do que fisiológico). BPM mais alto do que o ideal mas aguentou bem. Sem dores (Aquiles/joelho silenciosos). Chegou à distância-alvo (~35km) com pace consistente, o que é uma melhoria clara face ao Cascais (31.28km) em termos de resistência de duração — apesar de calor pior e de estar doente.\n"}, {"date": "2026-10-10", "nome": "Maratona de Carcavelos", "resumo": "28 splits de 1km (último parcial, 240m). Temperatura bem mais fresca que nos treinos de verão (22-27°C vs 30-35°C), mas a FC esteve anormalmente alta desde muito cedo: já 160-181bpm entre o km2 e o km20, com o pace a manter-se perto do planeado (5:45-5:80 min/km) — ou seja, o esforço percebido/cardíaco estava muito acima do que o pace justificava, consistente com estar doente, não com calor ou esforço excessivo de pace. A partir do km21 (perto da meia maratona) começam sinais claros de deterioração: lap21 já mais lento (6:01/km), lap22 colapsa (7:66/km, cadência cai de 84 para 71, potência cai de ~161W para 119W) — provável início da dor aguda no Aquiles. Dos km23-27 o atleta tenta continuar em ondas (recupera um pouco, piora outra vez): paces entre 5:98 e 7:84/km, cadência a oscilar entre 75-86. O último troço (240m) é essencialmente a andar/coxear — pace equivalente a 23:15/km, cadência 32, potência 40W — antes da desistência aos 27.24km.\n", "notas": "\"No hard feelings, just not my day.\" Estava doente, começou logo com FC muito elevada para o pace (sinal claro de doença, não de calor — a temperatura estava bem mais baixa que nos treinos de verão). Dor progressiva no tendão de Aquiles a partir de perto da meia maratona, piorando ao longo de vários km (confirmado pelos dados: colapso de cadência/potência a partir do km22) até à desistência aos 27.24km. Possível continuação do episódio de calcanhar sinalizado em 2026-10-01 (ver logs/lesoes.yaml) — por confirmar se chegou a ser avaliado por um médico antes da prova. Decisão de desistir foi a correta dado o quadro (doença + FC quase máxima + lesão a agravar).\n"}]};
 
 const KPIS = [
-  {label:"5 km", interval:"21:30 – 23:00", unit:"min", score:92.5, note:"melhor referência: 22:03 (19 ago, treino)"},
-  {label:"10 km", interval:"46:00 – 48:30", unit:"min", score:93.1, note:"melhor referência: 50:01 (2 jul) — provavelmente não foi esforço máximo"},
-  {label:"21 km", interval:"1:43:00 – 1:48:00", unit:"h", score:89.1, note:"melhor referência: 1:46:40 (30 jul, treino de limiar)"},
+  {label:"5 km", interval:"21:30 – 23:00", score:92.5, note:"melhor referência: 22:03 (19 ago, treino)"},
+  {label:"10 km", interval:"46:00 – 48:30", score:93.1, note:"melhor referência: 50:01 (2 jul) — provavelmente não foi esforço máximo"},
+  {label:"21 km", interval:"1:43:00 – 1:48:00", score:89.1, note:"melhor referência: 1:46:40 (30 jul, treino de limiar)"},
 ];
 
-const CAT_COLOR = {easy:"var(--s-easy)", quality:"var(--s-quality)", long:"var(--s-long)", race:"var(--s-race)", trail:"var(--s-trail)"};
 const CAT_LABEL = {easy:"Fácil", quality:"Qualidade", long:"Longo", race:"Prova", trail:"Trail"};
-
 function fmt(n, d=1){ return Number(n).toFixed(d); }
+function esc(s){ return (s==null?'':String(s)).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-// ---------- KPI row ----------
+/* ===================== TAB NAVIGATION ===================== */
+function initTabs(){
+  const nav = document.getElementById('tabs');
+  const panels = {
+    overview: document.getElementById('panel-overview'),
+    proximos: document.getElementById('panel-proximos'),
+    treinos: document.getElementById('panel-treinos'),
+    alimentacao: document.getElementById('panel-alimentacao'),
+    equipamento: document.getElementById('panel-equipamento'),
+    sobre: document.getElementById('panel-sobre'),
+  };
+  function select(tab){
+    Object.entries(panels).forEach(([k,el])=>{ el.hidden = (k!==tab); });
+    nav.querySelectorAll('button').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.tab===tab)));
+  }
+  nav.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{ select(b.dataset.tab); if(history.replaceState) history.replaceState(null,'','#'+b.dataset.tab); });
+  });
+  const initial = (location.hash||'').replace('#','');
+  select(panels[initial] ? initial : 'overview');
+}
+
+/* ===================== OVERVIEW CHARTS (unchanged logic) ===================== */
 function renderKPIs(){
-  const row = document.getElementById('kpi-row');
-  row.innerHTML = KPIS.map(k => `
+  document.getElementById('kpi-row').innerHTML = KPIS.map(k => `
     <div class="kpi">
       <span class="label">${k.label}</span>
-      <span class="value">${k.interval}<span class="unit"></span></span>
+      <span class="value">${k.interval}</span>
       <div class="bar-track"><div class="bar-fill" style="width:${k.score}%"></div></div>
       <span class="foot">${fmt(k.score,0)}% do potencial 1-2 anos &middot; ${k.note}</span>
     </div>
   `).join('');
 }
 
-// ---------- Radar chart ----------
 function renderRadar(){
   const svg = document.getElementById('chart-radar');
   const cx=180, cy=175, R=125;
@@ -256,37 +376,29 @@ function renderRadar(){
   const n = axes.length;
   const angle = i => (-Math.PI/2) + i*(2*Math.PI/n);
   const pt = (i, r) => [cx + r*Math.cos(angle(i)), cy + r*Math.sin(angle(i))];
-
-  let svgParts = [];
-  // grid rings
+  let parts = [];
   [0.25,0.5,0.75,1].forEach(f=>{
     const ring = axes.map((_,i)=>pt(i,R*f)).map(p=>p.join(',')).join(' ');
-    svgParts.push(`<polygon points="${ring}" fill="none" class="gridline"/>`);
+    parts.push(`<polygon points="${ring}" fill="none" class="gridline"/>`);
   });
-  // spokes
   axes.forEach((a,i)=>{
     const [x,y]=pt(i,R);
-    svgParts.push(`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" class="gridline"/>`);
+    parts.push(`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" class="gridline"/>`);
   });
-  // data polygon
   const dataPts = axes.map((a,i)=>pt(i, R*(a.score/100))).map(p=>p.join(',')).join(' ');
-  svgParts.push(`<polygon points="${dataPts}" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>`);
-  // data points
+  parts.push(`<polygon points="${dataPts}" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>`);
   axes.forEach((a,i)=>{
     const [x,y]=pt(i, R*(a.score/100));
-    svgParts.push(`<circle cx="${x}" cy="${y}" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>`);
+    parts.push(`<circle cx="${x}" cy="${y}" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>`);
   });
-  // labels
   axes.forEach((a,i)=>{
     const [x,y]=pt(i, R+28);
-    svgParts.push(`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" class="tick" font-size="12" fill="var(--ink-2)">${a.label}</text>`);
-    svgParts.push(`<text x="${x}" y="${y+14}" text-anchor="middle" class="tick mono" font-size="11" font-weight="600" fill="var(--accent)">${fmt(a.score,0)}%</text>`);
+    parts.push(`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" class="tick" font-size="12" fill="var(--ink-2)">${a.label}</text>`);
+    parts.push(`<text x="${x}" y="${y+14}" text-anchor="middle" class="tick mono" font-size="11" font-weight="600" fill="var(--accent)">${fmt(a.score,0)}%</text>`);
   });
-  svg.innerHTML = svgParts.join('');
+  svg.innerHTML = parts.join('');
 }
 
-// ---------- Scatter: pace vs HR ----------
-function classifyCat(cat){ return cat === 'race' ? null : cat; }
 function renderScatter(){
   const svg = document.getElementById('chart-scatter');
   const W=440,H=340, M={l:44,r:16,t:16,b:38};
@@ -296,54 +408,40 @@ function renderScatter(){
   const hrMin = Math.min(...pts.map(p=>p.hr))-5, hrMax = Math.max(...pts.map(p=>p.hr))+5;
   const X = p => M.l + (p-paceMin)/(paceMax-paceMin)*plotW;
   const Y = h => M.t + plotH - (h-hrMin)/(hrMax-hrMin)*plotH;
-
   let parts = [];
-  // gridlines (y)
-  const hrTicks = 5;
-  for(let i=0;i<=hrTicks;i++){
-    const h = hrMin + i*(hrMax-hrMin)/hrTicks;
+  for(let i=0;i<=5;i++){
+    const h = hrMin + i*(hrMax-hrMin)/5;
     const y = Y(h);
     parts.push(`<line x1="${M.l}" y1="${y}" x2="${W-M.r}" y2="${y}" class="gridline"/>`);
     parts.push(`<text x="${M.l-8}" y="${y+3}" text-anchor="end" class="tick">${Math.round(h)}</text>`);
   }
-  const paceTicks = [paceMin, (paceMin+paceMax)/2, paceMax];
-  paceTicks.forEach(p=>{
-    const x = X(p);
-    const mm = Math.floor(p), ss = Math.round((p-mm)*60);
+  [paceMin, (paceMin+paceMax)/2, paceMax].forEach(p=>{
+    const x = X(p); const mm = Math.floor(p), ss = Math.round((p-mm)*60);
     parts.push(`<text x="${x}" y="${H-M.b+18}" text-anchor="middle" class="tick">${mm}:${ss.toString().padStart(2,'0')}</text>`);
   });
   parts.push(`<text x="${M.l}" y="${12}" class="tick" font-size="10">FC</text>`);
   parts.push(`<text x="${W-M.r}" y="${H-6}" text-anchor="end" class="tick" font-size="10">min/km</text>`);
-
   pts.forEach((p,idx)=>{
     const x=X(p.pace), y=Y(p.hr);
     const color = `var(--s-${p.cat==='quality'?'quality':(p.cat==='easy'?'easy':'long')})`;
     parts.push(`<circle data-i="${idx}" cx="${x}" cy="${y}" r="5" fill="${color}" fill-opacity="0.8" stroke="var(--surface)" stroke-width="1" class="scatter-pt" style="cursor:pointer"/>`);
   });
-  // mark the actual race entries with a ring (resultado present)
   DATA.recent.filter(r=>r.resultado).forEach(r=>{
     const match = pts.find(p=>p.date===r.date);
-    if(match){
-      const x=X(match.pace), y=Y(match.hr);
-      parts.push(`<circle cx="${x}" cy="${y}" r="9" fill="none" stroke="var(--s-race)" stroke-width="2"/>`);
-    }
+    if(match){ const x=X(match.pace), y=Y(match.hr);
+      parts.push(`<circle cx="${x}" cy="${y}" r="9" fill="none" stroke="var(--s-race)" stroke-width="2"/>`); }
   });
-
   svg.innerHTML = parts.join('');
   const tooltip = document.getElementById('tooltip');
   svg.querySelectorAll('.scatter-pt').forEach(el=>{
-    el.addEventListener('mouseenter', e=>{
-      const p = pts[el.dataset.i];
-      const mm = Math.floor(p.pace), ss = Math.round((p.pace-mm)*60);
-      tooltip.innerHTML = `${p.date}<br>${p.nome}<br>${p.dist}km &middot; ${mm}:${ss.toString().padStart(2,'0')}/km &middot; ${p.hr}bpm`;
+    el.addEventListener('mouseenter', ()=>{
+      const p = pts[el.dataset.i]; const mm = Math.floor(p.pace), ss = Math.round((p.pace-mm)*60);
+      tooltip.innerHTML = `${p.date}<br>${esc(p.nome)}<br>${p.dist}km &middot; ${mm}:${ss.toString().padStart(2,'0')}/km &middot; ${p.hr}bpm`;
       tooltip.style.opacity=1;
     });
-    el.addEventListener('mousemove', e=>{
-      tooltip.style.left = (e.pageX+12)+'px'; tooltip.style.top=(e.pageY+12)+'px';
-    });
+    el.addEventListener('mousemove', e=>{ tooltip.style.left=(e.pageX+12)+'px'; tooltip.style.top=(e.pageY+12)+'px'; });
     el.addEventListener('mouseleave', ()=>{ tooltip.style.opacity=0; });
   });
-
   document.getElementById('legend-scatter').innerHTML = `
     <span class="item"><span class="swatch" style="background:var(--s-easy)"></span>Fácil / longo</span>
     <span class="item"><span class="swatch" style="background:var(--s-quality)"></span>Qualidade</span>
@@ -351,7 +449,6 @@ function renderScatter(){
   `;
 }
 
-// ---------- EF trend line ----------
 function renderEF(){
   const svg = document.getElementById('chart-ef');
   const W=900,H=260, M={l:50,r:20,t:16,b:30};
@@ -363,28 +460,22 @@ function renderEF(){
   const eMin=Math.min(...efs)*0.95, eMax=Math.max(...efs)*1.05;
   const X = d => M.l + (d-dMin)/(dMax-dMin)*plotW;
   const Y = e => M.t + plotH - (e-eMin)/(eMax-eMin)*plotH;
-
   let parts=[];
   for(let i=0;i<=4;i++){
-    const e = eMin + i*(eMax-eMin)/4;
-    const y = Y(e);
+    const e = eMin + i*(eMax-eMin)/4; const y = Y(e);
     parts.push(`<line x1="${M.l}" y1="${y}" x2="${W-M.r}" y2="${y}" class="gridline"/>`);
     parts.push(`<text x="${M.l-8}" y="${y+3}" text-anchor="end" class="tick">${fmt(e,3)}</text>`);
   }
-  // month ticks
   const months = [...new Set(rows.map(r=>r.date.slice(0,7)))];
   months.forEach(m=>{
     const first = rows.find(r=>r.date.startsWith(m));
     const x = X(new Date(first.date).getTime());
     parts.push(`<text x="${x}" y="${H-10}" text-anchor="middle" class="tick">${m.slice(5)}</text>`);
   });
-
   const linePts = rows.map(r=>`${X(new Date(r.date).getTime())},${Y(r.ef)}`).join(' ');
   const areaPts = `${M.l},${M.t+plotH} ${linePts} ${X(dMax)},${M.t+plotH}`;
   parts.push(`<polygon points="${areaPts}" fill="var(--accent)" fill-opacity="0.12"/>`);
   parts.push(`<polyline points="${linePts}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`);
-
-  // trend line (linear regression, computed client-side to match script)
   const n=rows.length, day0=dMin;
   const xs = dates.map(d=>(d-day0)/86400000);
   const meanX = xs.reduce((a,b)=>a+b,0)/n, meanY = efs.reduce((a,b)=>a+b,0)/n;
@@ -393,17 +484,13 @@ function renderEF(){
   const slope = den? num/den : 0, intercept = meanY - slope*meanX;
   const y0 = intercept, y1 = intercept + slope*xs[xs.length-1];
   parts.push(`<line x1="${X(dMin)}" y1="${Y(y0)}" x2="${X(dMax)}" y2="${Y(y1)}" stroke="var(--ink-2)" stroke-width="1.5" stroke-dasharray="4 4"/>`);
-
-  // endpoint emphasis
   const last = rows[rows.length-1];
   parts.push(`<circle cx="${X(dMax)}" cy="${Y(last.ef)}" r="5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>`);
-
   svg.innerHTML = parts.join('');
   const pctChange = ((y1-y0)/y0*100).toFixed(1);
   document.getElementById('ef-trend-label').textContent = `${pctChange>0?'+':''}${pctChange}% desde ${rows[0].date}`;
 }
 
-// ---------- Weekly volume ----------
 function renderWeekly(){
   const svg = document.getElementById('chart-weekly');
   const W=440,H=260, M={l:36,r:10,t:16,b:34};
@@ -419,9 +506,7 @@ function renderWeekly(){
   });
   weeks.forEach((w,i)=>{
     const h = (w.km/maxKm)*plotH;
-    const x = M.l + i*bw + bw*0.18;
-    const barW = bw*0.64;
-    const y = M.t+plotH-h;
+    const x = M.l + i*bw + bw*0.18, barW = bw*0.64, y = M.t+plotH-h;
     parts.push(`<rect data-i="${i}" x="${x}" y="${y}" width="${barW}" height="${Math.max(h,1)}" rx="2.5" fill="var(--accent)" fill-opacity="${w.km>0?0.85:0.25}" class="wk-bar" style="cursor:pointer"/>`);
     if(i % 3 === 0 || i===weeks.length-1){
       parts.push(`<text x="${x+barW/2}" y="${H-10}" text-anchor="middle" class="tick" font-size="9">${w.week.slice(6)}</text>`);
@@ -430,36 +515,24 @@ function renderWeekly(){
   svg.innerHTML = parts.join('');
   const tooltip = document.getElementById('tooltip');
   svg.querySelectorAll('.wk-bar').forEach(el=>{
-    el.addEventListener('mouseenter', e=>{
-      const w = weeks[el.dataset.i];
-      tooltip.innerHTML = `${w.week}<br>${fmt(w.km,1)} km`;
-      tooltip.style.opacity=1;
-    });
+    el.addEventListener('mouseenter', ()=>{ const w = weeks[el.dataset.i]; tooltip.innerHTML = `${w.week}<br>${fmt(w.km,1)} km`; tooltip.style.opacity=1; });
     el.addEventListener('mousemove', e=>{ tooltip.style.left=(e.pageX+12)+'px'; tooltip.style.top=(e.pageY+12)+'px'; });
     el.addEventListener('mouseleave', ()=>{ tooltip.style.opacity=0; });
   });
 }
 
-// ---------- Donut composition ----------
 function renderDonut(){
   const svg = document.getElementById('chart-donut');
   const cx=130, cy=150, rOuter=105, rInner=62;
   const order = ['long','quality','easy','race','trail'];
   const total = order.reduce((s,k)=>s+(DATA.category_km[k]||0),0);
-  let angle = -Math.PI/2;
-  let parts=[];
-  const legendItems=[];
+  let angle = -Math.PI/2, parts=[], legendItems=[];
   order.forEach(k=>{
-    const v = DATA.category_km[k]||0;
-    if(v<=0) return;
-    const frac = v/total;
-    const a0=angle, a1=angle+frac*2*Math.PI;
-    angle=a1;
+    const v = DATA.category_km[k]||0; if(v<=0) return;
+    const frac = v/total; const a0=angle, a1=angle+frac*2*Math.PI; angle=a1;
     const large = (a1-a0) > Math.PI ? 1:0;
-    const p0o=[cx+rOuter*Math.cos(a0), cy+rOuter*Math.sin(a0)];
-    const p1o=[cx+rOuter*Math.cos(a1), cy+rOuter*Math.sin(a1)];
-    const p0i=[cx+rInner*Math.cos(a1), cy+rInner*Math.sin(a1)];
-    const p1i=[cx+rInner*Math.cos(a0), cy+rInner*Math.sin(a0)];
+    const p0o=[cx+rOuter*Math.cos(a0), cy+rOuter*Math.sin(a0)], p1o=[cx+rOuter*Math.cos(a1), cy+rOuter*Math.sin(a1)];
+    const p0i=[cx+rInner*Math.cos(a1), cy+rInner*Math.sin(a1)], p1i=[cx+rInner*Math.cos(a0), cy+rInner*Math.sin(a0)];
     const d = `M${p0o[0]},${p0o[1]} A${rOuter},${rOuter} 0 ${large} 1 ${p1o[0]},${p1o[1]} L${p0i[0]},${p0i[1]} A${rInner},${rInner} 0 ${large} 0 ${p1i[0]},${p1i[1]} Z`;
     parts.push(`<path d="${d}" fill="var(--s-${k})" stroke="var(--surface)" stroke-width="2"/>`);
     legendItems.push(`<span class="item"><span class="swatch" style="background:var(--s-${k})"></span>${CAT_LABEL[k]} &middot; ${fmt(v,0)}km (${fmt(frac*100,0)}%)</span>`);
@@ -467,88 +540,172 @@ function renderDonut(){
   parts.push(`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-family="var(--font-display)" font-size="30" font-weight="700" fill="var(--ink)">${fmt(total,0)}</text>`);
   parts.push(`<text x="${cx}" y="${cy+18}" text-anchor="middle" class="tick" font-size="11">km totais</text>`);
   svg.innerHTML = parts.join('');
-  document.querySelector('#chart-donut').insertAdjacentHTML('afterend', `<div class="legend">${legendItems.join('')}</div>`);
+  const existingLegend = svg.parentElement.querySelector('.legend');
+  if(existingLegend) existingLegend.remove();
+  svg.insertAdjacentHTML('afterend', `<div class="legend">${legendItems.join('')}</div>`);
 }
 
-// ---------- Recent activity table ----------
-function renderTable(){
-  const tbody = document.querySelector('#activity-table tbody');
-  tbody.innerHTML = DATA.recent.map(r=>{
-    const cat = r.resultado ? 'race' : (/threshold|marathon pace|interval|acele/i.test(r.nome||'') ? 'quality' : (r.tipo==='trail'?'trail':(r.dist>=12?'long':'easy')));
-    return `<tr>
+/* ===================== TREINOS (full log) ===================== */
+function renderTreinos(){
+  const tbody = document.querySelector('#activity-table-full tbody');
+  const acts = [...DATA.full_activities].sort((a,b)=> a.date < b.date ? 1 : -1);
+  document.getElementById('treinos-count').textContent = `${acts.length} sessões registadas`;
+  tbody.innerHTML = acts.map((r,i)=>`
+    <tr class="${r.has_detail?'has-detail':''}" data-i="${i}">
       <td class="num">${r.date}</td>
-      <td>${r.nome}${r.resultado?' <span style="color:var(--critical)">— '+r.resultado+'</span>':''}</td>
+      <td>${esc(r.nome)}${r.resultado?' <span style="color:var(--critical)">— '+esc(r.resultado)+'</span>':''}</td>
       <td class="num">${r.dist!=null?fmt(r.dist,2)+'km':'—'}</td>
       <td class="num">${r.pace||'—'}</td>
       <td class="num">${r.hr||'—'}</td>
-      <td><span class="tag ${cat}">${CAT_LABEL[cat]}</span></td>
-    </tr>`;
-  }).join('');
+      <td><span class="tag ${r.cat}">${CAT_LABEL[r.cat]}</span></td>
+    </tr>`).join('');
+  const detailBox = document.getElementById('activity-detail');
+  tbody.querySelectorAll('tr.has-detail').forEach(tr=>{
+    tr.addEventListener('click', ()=>{
+      const r = acts[tr.dataset.i];
+      const d = DATA.detailed_activities.find(x=>x.date===r.date && x.nome===r.nome);
+      if(!d){ detailBox.dataset.show="0"; return; }
+      let html = `<h4>${d.date} — ${esc(d.nome)}</h4>`;
+      if(d.resumo) html += `<p>${esc(d.resumo)}</p>`;
+      if(d.nutricao_doses && d.nutricao_doses.length){
+        html += `<h4 style="margin-top:14px">Fueling</h4>`;
+        d.nutricao_doses.forEach(dose=>{
+          html += `<div class="dose"><span class="km">km ${esc(dose.km)}</span><span>${esc(dose.item)}${dose.tempo?' · '+esc(dose.tempo):''}${dose.nota?' — '+esc(dose.nota):''}</span></div>`;
+        });
+        if(d.nutricao_analise) html += `<p style="margin-top:10px">${esc(d.nutricao_analise)}</p>`;
+      }
+      if(d.fueling_resultado) html += `<p><strong>Resultado:</strong> ${esc(d.fueling_resultado)}</p>`;
+      if(d.notas) html += `<p>${esc(d.notas)}</p>`;
+      detailBox.innerHTML = html;
+      detailBox.dataset.show = "1";
+      detailBox.scrollIntoView({behavior:'smooth', block:'nearest'});
+    });
+  });
+}
+
+/* ===================== ALIMENTAÇÃO ===================== */
+function renderAlimentacao(){
+  const rules = document.getElementById('nutrition-rules');
+  rules.innerHTML = (DATA.nutrition_plan_rules||[]).map(r=>`<li>${esc(r)}</li>`).join('') || '<li>Sem regras registadas ainda.</li>';
+  const detail = document.getElementById('nutrition-detail');
+  const withFuel = DATA.detailed_activities.filter(d=>d.nutricao_doses && d.nutricao_doses.length);
+  if(!withFuel.length){
+    detail.innerHTML = `<div class="emptystate"><span class="icon">🍌</span><h3>Ainda sem dados de fueling</h3><p>Aparece aqui assim que registares as doses de um treino longo.</p></div>`;
+    return;
+  }
+  detail.innerHTML = withFuel.map(d=>`
+    <div style="margin-bottom:18px">
+      <div class="mono" style="font-size:.76rem; color:var(--muted); margin-bottom:6px">${d.date} · ${esc(d.nome)}</div>
+      ${d.nutricao_doses.map(dose=>`<div class="dose"><span class="km">km ${esc(dose.km)}</span><span>${esc(dose.item)}</span></div>`).join('')}
+    </div>
+  `).join('');
+}
+
+/* ===================== EQUIPAMENTO ===================== */
+function renderEquipamento(){
+  const card = document.getElementById('equip-card');
+  const shoes = DATA.equipamento||[];
+  if(!shoes.length){
+    card.innerHTML = `<div class="emptystate"><span class="icon">👟</span><h3>Ainda sem sapatilhas registadas</h3><p>Diz-me o modelo que calças agora e começo a seguir os quilómetros acumulados — desgaste acima de ~500-800km é fator de lesão.</p></div>`;
+    return;
+  }
+  card.innerHTML = shoes.map(s=>`
+    <div class="statrow"><span class="k">${esc(s.modelo)}</span><span class="v">${s.km_acumulados||0} km</span></div>
+  `).join('');
+}
+
+/* ===================== SOBRE MIM ===================== */
+function renderSobre(){
+  const p = DATA.profile||{};
+  document.getElementById('profile-stats').innerHTML = `
+    <div class="statrow"><span class="k">Idade</span><span class="v">${p.idade??'—'} anos</span></div>
+    <div class="statrow"><span class="k">Altura</span><span class="v">${p.altura_cm??'—'} cm</span></div>
+    <div class="statrow"><span class="k">Nascimento</span><span class="v">${p.data_nascimento??'—'}</span></div>
+  `;
+  const w = DATA.weight_history||[];
+  const wrap = document.getElementById('weight-stats');
+  if(!w.length){
+    wrap.innerHTML = `<div class="emptystate"><span class="icon">⚖️</span><h3>Ainda sem pesagens</h3><p>Diz-me o peso quando souberes um valor novo.</p></div>`;
+    return;
+  }
+  const last = w[w.length-1];
+  wrap.innerHTML = `<div class="statrow"><span class="k">Último registo (${last.date})</span><span class="v">${last.kg} kg</span></div>` +
+    w.slice(0,-1).reverse().map(x=>`<div class="statrow"><span class="k">${x.date}</span><span class="v">${x.kg} kg</span></div>`).join('');
+}
+
+/* ===================== PRÓXIMOS TREINOS (reactive, from db) ===================== */
+function renderProximosEmpty(note){
+  document.getElementById('proximos-card').innerHTML = `
+    <div class="emptystate">
+      <span class="icon">🗓️</span>
+      <h3>Ainda não há um próximo treino definido</h3>
+      <p>${note || 'O plano aqui é dinâmico — pede-o numa conversa e aparece aqui assim que for decidido, nunca um calendário fixo.'}</p>
+    </div>`;
+  document.getElementById('proximos-updated').textContent = '';
+}
+async function loadProximos(){
+  const db = await claude.use('db').catch(()=>null);
+  if(!db){ renderProximosEmpty(); return; }
+  try{
+    const snap = await db.doc('plan/next').get();
+    if(!snap.exists){ renderProximosEmpty(); return; }
+    const d = snap.data();
+    document.getElementById('proximos-updated').textContent = d.updated_at ? `atualizado ${d.updated_at}` : '';
+    const items = (d.sessoes||[]).map(s=>`
+      <div class="statrow"><span class="k">${esc(s.quando)} — ${esc(s.tipo)}</span><span class="v">${esc(s.detalhe||'')}</span></div>
+    `).join('');
+    document.getElementById('proximos-card').innerHTML = `
+      ${d.contexto ? `<p style="color:var(--ink-2); font-size:.86rem; margin-bottom:14px">${esc(d.contexto)}</p>` : ''}
+      ${items || '<p style="color:var(--muted)">Sem sessões detalhadas.</p>'}
+    `;
+  } catch(e){ renderProximosEmpty(); }
 }
 
 function renderAll(){
-  renderKPIs(); renderRadar(); renderScatter(); renderEF(); renderWeekly(); renderDonut(); renderTable();
+  initTabs();
+  renderKPIs(); renderRadar(); renderScatter(); renderEF(); renderWeekly(); renderDonut();
+  renderTreinos(); renderAlimentacao(); renderEquipamento(); renderSobre();
+  loadProximos();
   document.getElementById('cascais-days').textContent = DATA.dias_para_cascais_aprox;
   document.getElementById('snapshot-date').textContent = `Dados de base: ${SNAPSHOT_DATE}`;
 }
 renderAll();
 
-// ============ live refresh via Coros MCP + pending-import queue ============
+/* ===================== live refresh via Coros MCP + pending-import queue ===================== */
 const btn = document.getElementById('btn-refresh');
 const refreshIcon = document.getElementById('refresh-icon');
 const refreshLabel = document.getElementById('refresh-label');
 const banner = document.getElementById('livebanner');
-
-function showBanner(msg, isErr){
-  banner.textContent = msg;
-  banner.dataset.show = "1";
-  banner.classList.toggle('err', !!isErr);
-}
-
+function showBanner(msg, isErr){ banner.textContent = msg; banner.dataset.show = "1"; banner.classList.toggle('err', !!isErr); }
 function parseRecoveryText(text){
-  const rec = /Recovery:\s*(\d+)%/.exec(text);
-  const level = /Level:\s*(.+)/.exec(text);
+  const rec = /Recovery:\s*(\d+)%/.exec(text); const level = /Level:\s*(.+)/.exec(text);
   return { pct: rec? parseInt(rec[1]):null, level: level? level[1].trim():null };
 }
 function parseLoadText(text){
   const block = text.split('\n\n')[0] || text;
-  const ratio = /Load Ratio:\s*([\d.]+)/.exec(block);
-  const comment = /Comment:\s*(.+)/.exec(block);
+  const ratio = /Load Ratio:\s*([\d.]+)/.exec(block); const comment = /Comment:\s*(.+)/.exec(block);
   return { ratio: ratio? parseFloat(ratio[1]):null, comment: comment? comment[1].trim():null };
 }
 function parseSportRecordsText(text){
   const blocks = text.split(/\n\d+\.\s/).slice(1);
   return blocks.map(b=>{
     const nome = /Location:\s*(.+)/.exec(b);
-    const header = /^(.+?)\s*—\s*(\d{4}-\d{2}-\d{2})/.exec(b) || /^(.+?) — (\d{4}-\d{2}-\d{2})/.exec(b);
+    const header = /^(.+?)\s*[—-]\s*(\d{4}-\d{2}-\d{2})/.exec(b);
     const dur = /Duration:\s*([\d:]+)/.exec(b);
     const dist = /Distance:\s*([\d.]+)\s*km/.exec(b);
     const pace = /Average Pace:\s*([\d:]+)\s*\/km/.exec(b);
     const hr = /Avg HR:\s*(\d+)/.exec(b);
     return {
-      date: header? header[2] : null,
-      nome: nome? nome[1].trim() : (header? header[1].trim():null),
+      date: header? header[2] : null, nome: nome? nome[1].trim() : (header? header[1].trim():null),
       duracao: dur? dur[1]:null, distancia_km: dist? parseFloat(dist[1]):null,
       pace: pace? pace[1]+'/km':null, fc_media: hr? parseInt(hr[1]):null,
     };
   }).filter(x=>x.date);
 }
-
 async function doRefresh(){
-  btn.disabled = true;
-  refreshIcon.classList.add('spin');
-  refreshLabel.textContent = 'A atualizar…';
-  banner.dataset.show = "0";
-
+  btn.disabled = true; refreshIcon.classList.add('spin'); refreshLabel.textContent = 'A atualizar…'; banner.dataset.show = "0";
   const mcp = await claude.use('mcp').catch(()=>null);
-  if(!mcp){
-    refreshLabel.textContent = 'Refresh';
-    refreshIcon.classList.remove('spin');
-    btn.disabled = false;
-    showBanner('A ligação a conectores não está disponível nesta vista.', true);
-    return;
-  }
-
+  if(!mcp){ refreshLabel.textContent='Refresh'; refreshIcon.classList.remove('spin'); btn.disabled=false; showBanner('A ligação a conectores não está disponível nesta vista.', true); return; }
   try{
     const [recoveryRes, loadRes, recordsRes] = await Promise.allSettled([
       mcp.callTool('Coros', 'queryRecoveryStatus', {}),
@@ -557,39 +714,29 @@ async function doRefresh(){
         startDate: new Date(Date.now()-14*864e5).toISOString().slice(0,10).replace(/-/g,''),
         endDate: new Date().toISOString().slice(0,10).replace(/-/g,''),
         sportTypeCodes: [100,101,102,103], minDistanceKm: null, maxDistanceKm: null,
-        minDurationMinutes: null, maxDurationMinutes: null, maxAveragePace: null,
-        locationKeyword: null, limit: 20,
+        minDurationMinutes: null, maxDurationMinutes: null, maxAveragePace: null, locationKeyword: null, limit: 20,
       }),
     ]);
-
     let anyOk = false, errCodes = [];
-
     if(recoveryRes.status==='fulfilled'){
       anyOk = true;
       const txt = typeof recoveryRes.value.payload === 'string' ? recoveryRes.value.payload : JSON.stringify(recoveryRes.value.payload);
       const r = parseRecoveryText(txt);
-      const chip = document.getElementById('chip-recovery');
-      chip.classList.remove('good','warning','critical');
-      if(r.pct!=null){
-        chip.classList.add(r.pct>=70?'good':(r.pct>=40?'warning':'critical'));
-        document.getElementById('recovery-text').textContent = `recuperação: ${r.pct}%${r.level?' · '+r.level:''}`;
-      }
+      const chip = document.getElementById('chip-recovery'); chip.classList.remove('good','warning','critical');
+      if(r.pct!=null){ chip.classList.add(r.pct>=70?'good':(r.pct>=40?'warning':'critical'));
+        document.getElementById('recovery-text').textContent = `recuperação: ${r.pct}%${r.level?' · '+r.level:''}`; }
     } else { errCodes.push(recoveryRes.reason?.code || 'erro'); }
-
     if(loadRes.status==='fulfilled'){
       anyOk = true;
       const txt = typeof loadRes.value.payload === 'string' ? loadRes.value.payload : JSON.stringify(loadRes.value.payload);
       const l = parseLoadText(txt);
-      if(l.ratio!=null){
-        showBanner(`Carga: ${l.comment||'—'} · rácio ${l.ratio.toFixed(2)}`, l.ratio>1.3);
-      }
+      if(l.ratio!=null) showBanner(`Carga: ${l.comment||'—'} · rácio ${l.ratio.toFixed(2)}`, l.ratio>1.3);
     } else { errCodes.push(loadRes.reason?.code || 'erro'); }
-
     if(recordsRes.status==='fulfilled'){
       anyOk = true;
       const txt = typeof recordsRes.value.payload === 'string' ? recordsRes.value.payload : JSON.stringify(recordsRes.value.payload);
       const activities = parseSportRecordsText(txt);
-      const known = new Set(DATA.recent.map(r=>r.date+'|'+r.nome));
+      const known = new Set(DATA.full_activities.map(r=>r.date+'|'+r.nome));
       const fresh = activities.filter(a=>!known.has(a.date+'|'+a.nome));
       if(fresh.length){
         const db = await claude.use('db').catch(()=>null);
@@ -599,25 +746,15 @@ async function doRefresh(){
             await db.collection('pending_activities').doc(id).set({ ...a, queued_at: new Date().toISOString() });
           }
         }
-        document.getElementById('pending-note').textContent = `${fresh.length} sessão(ões) nova(s) na fila — serão processadas na próxima conversa`;
       }
     } else { errCodes.push(recordsRes.reason?.code || 'erro'); }
-
     if(!anyOk){
       const code = errCodes[0];
-      if(code==='server_not_connected' || code==='needs_reauth'){
-        showBanner('Coros não está ligada — vai a Settings → Connectors no claude.ai.', true);
-      } else {
-        showBanner('Não foi possível atualizar agora. Tenta outra vez daqui a pouco.', true);
-      }
+      if(code==='server_not_connected' || code==='needs_reauth') showBanner('Coros não está ligada — vai a Settings → Connectors no claude.ai.', true);
+      else showBanner('Não foi possível atualizar agora. Tenta outra vez daqui a pouco.', true);
     }
-  } catch(e){
-    showBanner('Não foi possível atualizar agora.', true);
-  } finally {
-    refreshIcon.classList.remove('spin');
-    refreshLabel.textContent = 'Refresh';
-    btn.disabled = false;
-  }
+  } catch(e){ showBanner('Não foi possível atualizar agora.', true); }
+  finally { refreshIcon.classList.remove('spin'); refreshLabel.textContent = 'Refresh'; btn.disabled = false; }
 }
 btn.addEventListener('click', doRefresh);
 </script>
